@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import config from '../../config.json';
+
+export async function getStaticPaths() {
+    if (!config.enableAuthor) {
+        return [];
+    }
+	const posts = await getCollection('posts');
+    const authors = [...new Set(posts.map((post) => post.data.author))];
+	return authors.map((author) => ({
+		params: { author: author },
+		props: { author, posts: posts.filter(post => post.data.author === author) },
+	}));
+}
+
+const { author, posts } = Astro.props;
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title={`${author} - ${config.siteTitle}`}>
+    <div class="bg-black text-white py-12 mb-12 transform -skew-y-2 origin-top-left mt-[-20px] pt-24 pb-20 dark:bg-white dark:text-black">
+        <div class="container mx-auto px-4 transform skew-y-2">
+            <h1 class="text-6xl md:text-8xl font-bold uppercase tracking-tighter mb-4">
+                {author}<span class="text-white dark:text-black">.</span>
+            </h1>
+            <p class="font-mono text-gray-400 max-w-xl text-lg border-l-4 border-white pl-6 dark:text-gray-600 dark:border-black">
+                Latest stories, investigations, and analysis by {author}.
+            </p>
+        </div>
+    </div>
+
+	<section class="container mx-auto px-4 mb-20">
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+			{sortedPosts.map(post => (
+				<article class="flex flex-col h-full hover:translate-x-1 hover:-translate-y-1 transition-transform duration-200">
+					<div class="h-48 overflow-hidden relative group">
+						<img 
+							src={post.data.image?.url} 
+							alt={post.data.image?.alt}
+							class="w-full h-full object-cover transition-all duration-500"
+						/>
+					</div>
+					<div class="pt-6 flex flex-col flex-grow">
+                        <div class="font-mono text-[10px] text-gray-500 mb-3 uppercase tracking-wider border-b border-gray-200 pb-2 flex items-center gap-2 dark:border-gray-700">
+                            <span class="dark:text-gray-400">{post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                            <span class="text-gray-300 dark:text-gray-600">/</span>
+                            <a href={`/category/${post.data.category.toLowerCase()}`} class="font-bold text-black underline hover:text-404-pink transition-colors dark:text-white dark:hover:text-404-pink">
+                                {post.data.category}
+                            </a>
+                        </div>
+                        
+						<h3 class="text-xl font-bold text-black mb-3 leading-tight uppercase dark:text-white">
+							<a href={`/posts/${post.slug}`} class="hover:text-404-pink transition-colors dark:text-white dark:hover:text-404-pink">
+								{post.data.title}
+							</a>
+						</h3>
+
+                        <p class="font-serif text-sm text-gray-600 mb-4 line-clamp-3 flex-grow dark:text-gray-400">
+                            {post.data.description}
+                        </p>
+						
+                        <div class="pt-4 mt-auto">
+                            <a href={`/posts/${post.slug}`} class="text-sm font-mono font-bold text-black hover:text-404-pink hover:underline decoration-2 underline-offset-4 flex items-center gap-2 dark:text-white dark:hover:text-404-pink">
+                                READ STORY <span>-></span>
+                            </a>
+                        </div>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+</Layout>

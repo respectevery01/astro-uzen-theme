@@ -1,0 +1,45 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+    description?: string;
+}
+
+const { title, description = "Tech, hacking, and the internet." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+		<title>{title}</title>
+        <script is:inline>
+            // Check for dark mode preference
+            if (
+              localStorage.getItem('color-theme') === 'dark' ||
+              (!('color-theme' in localStorage) &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)
+            ) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+        </script>
+	</head>
+	<body class="bg-white text-black dark:bg-black dark:text-white font-sans min-h-screen flex flex-col selection:bg-404-pink selection:text-white overflow-x-hidden">
+		<Header />
+        <main class="flex-grow">
+		    <slot />
+        </main>
+        <Footer />
+	</body>
+</html>

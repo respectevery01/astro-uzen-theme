@@ -1,0 +1,105 @@
+---
+import config from '../config.json';
+---
+
+<header class="border-b-4 border-black bg-white sticky top-0 z-50 dark:bg-black dark:border-white">
+  <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+    <a href="/" class="text-4xl font-bold tracking-tighter text-black uppercase hover:text-404-pink transition-colors dark:text-white dark:hover:text-404-pink">
+      {config.siteTitle}<span class="text-404-pink blink">_</span>
+    </a>
+    
+    <nav class="hidden md:flex gap-8 text-sm font-bold text-black uppercase tracking-wider dark:text-white">
+      {config.navigation.map(item => (
+        <a href={item.href} class="hover:bg-black hover:text-white px-2 py-1 transition-colors dark:hover:bg-white dark:hover:text-black">{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-4">
+        <button id="theme-toggle" class="border-2 border-black p-1 hover:bg-black hover:text-white transition-colors dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
+            <!-- Sun icon -->
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+            <!-- Moon icon -->
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+        </button>
+        <button class="border-2 border-black px-4 py-1 font-bold hover:bg-404-pink hover:border-404-pink hover:text-white transition-colors shadow-brutal-sm active:shadow-none active:translate-x-[2px] active:translate-y-[2px] dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black">
+            SUBSCRIBE
+        </button>
+        <button class="md:hidden text-black border-2 border-black p-1 hover:bg-black hover:text-white dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+    </div>
+  </div>
+  
+  <!-- Marquee Bar -->
+  <div class="bg-black text-white overflow-hidden py-1 border-t border-white/20 dark:bg-white dark:text-black dark:border-black">
+      <div class="whitespace-nowrap animate-marquee inline-block">
+        {Array(3).fill(null).map(() => (
+          config.marquee.map(item => (
+            <>
+              <span class="mx-4 font-mono text-xs">{item}</span>
+              <span class="mx-4 text-404-pink">•</span>
+            </>
+          ))
+        ))}
+      </div>
+  </div>
+</header>
+
+<script>
+    var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Change the icons inside the button based on previous settings
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        themeToggleLightIcon?.classList.remove('hidden');
+    } else {
+        themeToggleDarkIcon?.classList.remove('hidden');
+    }
+
+    var themeToggleBtn = document.getElementById('theme-toggle');
+
+    themeToggleBtn?.addEventListener('click', function() {
+
+        // toggle icons inside button
+        themeToggleDarkIcon?.classList.toggle('hidden');
+        themeToggleLightIcon?.classList.toggle('hidden');
+
+        // if set via local storage previously
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+
+        // if NOT set via local storage previously
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+        
+    });
+</script>
+
+<style>
+.blink {
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}
+.animate-marquee {
+    animation: marquee 20s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+</style>

@@ -1,0 +1,43 @@
+{
+  "siteTitle": "Uzen",
+  "siteDescription": "Reporting on the internet, technology, and the future. No algorithms. Just signals. Lesgo",
+  "introSection": {
+    "title": "Welcome to Uzen",
+    "text": "We are a new kind of media company. We don't chase clicks. We chase the truth. Our stories are about the internet, technology, and the future.",
+    "linkText": "Read more about us here",
+    "linkUrl": "/about"
+  },
+  "navigation": [
+    { "label": "Home", "href": "/" },
+    { "label": "Technology", "href": "/category/technology" },
+    { "label": "Lifestyle", "href": "/category/lifestyle" },
+    { "label": "Design", "href": "/category/design" },
+    { "label": "About", "href": "/about" }
+  ],
+  "social": [
+    { "label": "Twitter", "href": "#" },
+    { "label": "Bluesky", "href": "#" },
+    { "label": "RSS", "href": "#" }
+  ],
+  "marquee": [
+    "BREAKING: AI TAKES OVER THE WORLD",
+    "NEW CYBERPUNK AESTHETICS TRENDING",
+    "SUBSCRIBE FOR EXCLUSIVE CONTENT",
+    "SYSTEM UPDATE: 404 MEDIA RELOADED"
+  ],
+  "enableAuthor": true,
+  "footer": {
+    "sections": [
+      { "label": "Technology", "href": "#" },
+      { "label": "Design", "href": "#" },
+      { "label": "Culture", "href": "#" },
+      { "label": "Travel", "href": "#" }
+    ],
+    "legal": [
+      { "label": "Privacy Policy", "href": "#" },
+      { "label": "Terms of Service", "href": "#" },
+      { "label": "Masthead", "href": "#" },
+      { "label": "Contact", "href": "#" }
+    ]
+  }
+}
