@@ -16,6 +16,16 @@ const postsCollection = defineCollection({
 	}),
 });
 
+const pagesCollection = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string().optional(),
+		showSocial: z.boolean().default(false),
+	}),
+});
+
 export const collections = {
 	'posts': postsCollection,
+	'pages': pagesCollection,
 };

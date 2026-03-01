@@ -70,47 +70,9 @@ const { Content } = await post.render();
 			<Content />
 		</div>
         
-        <div class="mt-16 pt-8 border-t-4 border-black dark:border-white">
-            <div class="bg-404-gray p-8 border-2 border-black text-center dark:bg-gray-900 dark:border-white">
-                <h3 class="font-bold uppercase mb-4 dark:text-white">Share this story</h3>
-                <SocialShare />
-            </div>
+        <div class="mt-16 pt-8 border-t-4 border-black dark:border-white flex flex-col sm:flex-row items-center gap-4">
+            <span class="font-bold uppercase dark:text-white whitespace-nowrap">Share this story:</span>
+            <SocialShare links={config.shareLinks} />
         </div>
 	</article>
 </Layout>
-
-<style is:global>
-    /* macOS Terminal Style for Code Blocks */
-    .prose pre {
-        position: relative;
-        padding-top: 3rem;
-        border-radius: 0.5rem;
-        background-color: #1e1e1e; /* Dark background */
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        border: 1px solid #333;
-    }
-
-    .prose pre::before {
-        content: "";
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        width: 0.75rem;
-        height: 0.75rem;
-        border-radius: 50%;
-        background-color: #ff5f56; /* Red */
-        box-shadow: 1.25rem 0 0 #ffbd2e, 2.5rem 0 0 #27c93f; /* Yellow and Green */
-    }
-
-    /* Optional: Adjust code text color/font if needed */
-    .prose pre code {
-        font-family: 'Space Mono', monospace;
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    
-    /* Ensure code block content doesn't overlap with the "buttons" */
-    .prose pre > code {
-        display: block;
-    }
-</style>

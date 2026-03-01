@@ -14,10 +14,15 @@
     { "label": "Design", "href": "/category/design" },
     { "label": "About", "href": "/about" }
   ],
-  "social": [
+  "socialLinks": [
     { "label": "Twitter", "href": "#", "icon": "twitter" },
     { "label": "Facebook", "href": "#", "icon": "facebook" },
     { "label": "Instagram", "href": "#", "icon": "instagram" },
+    { "label": "Weibo", "href": "#", "icon": "weibo" }
+  ],
+  "shareLinks": [
+    { "label": "Twitter", "href": "#", "icon": "twitter" },
+    { "label": "Facebook", "href": "#", "icon": "facebook" },
     { "label": "Weibo", "href": "#", "icon": "weibo" }
   ],
   "marquee": [
@@ -35,8 +40,8 @@
       { "label": "Travel", "href": "#" }
     ],
     "legal": [
-      { "label": "Privacy Policy", "href": "#" },
-      { "label": "Terms of Service", "href": "#" },
+      { "label": "Privacy Policy", "href": "/privacy" },
+      { "label": "Terms of Service", "href": "/terms" },
       { "label": "Masthead", "href": "#" },
       { "label": "Contact", "href": "#" }
     ]
