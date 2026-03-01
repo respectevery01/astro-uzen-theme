@@ -1,0 +1,24 @@
+---
+import config from '../config.json';
+
+const iconMap = {
+    twitter: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+    facebook: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.048 0-2.733 1.379-2.733 2.892v1.08h3.431l-.535 3.667h-2.896v7.98h-5.08z"/></svg>`,
+    instagram: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`,
+    weibo: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.11 14.3c-.22 2.61-3.66 4.67-7.66 4.67-4.11 0-7.33-2.22-7.11-4.89.22-2.33 3.22-4.11 7.11-4.11 3.78 0 7.44 1.78 7.66 4.33zM9.89 12.86c-.22 0-.44.11-.44.22 0 .22.22.33.44.33.22 0 .33-.11.33-.22.11-.22-.11-.33-.33-.33zm.89-.44c-.33-.11-.67 0-.78.33-.11.33.11.56.33.67.33.11.67 0 .78-.33.11-.33-.11-.56-.33-.67zm1.67-.56c-.56-.11-1.11.11-1.22.56-.11.56.22 1 .78 1.11.56.11 1.11-.11 1.22-.56.11-.56-.22-1-.78-1.11zm6.78-4.56c-.22-.22-.56-.33-.89-.33-.11 0-.11 0-.22.11-.56.33-.44 1.22.11 1.78.56.56 1.44.44 1.78-.11.22-.56.11-1.11-.78-1.45zm2.56-1.89c-.11-.11-.22-.22-.33-.22-.22 0-.56.11-.67.33-.44.67-.11 1.78.56 2.11.67.44 1.56.11 1.89-.56.33-.66.11-1.33-1.45-1.66zM11.67 2.44C12.89 2.22 14.11 2.22 15.22 2.67c1.33.44 2.33 1.33 2.78 2.56.11.22 0 .44-.22.56-.22.11-.44.11-.67 0-.78-.33-1.67-.56-2.56-.56-1.67 0-3.11.89-4 2.11-.11.22-.33.22-.56.11-.22-.11-.22-.33-.11-.56 1-1.56 2.89-2.56 4.67-2.67z"/></svg>`
+};
+---
+
+<div class="flex gap-4">
+    {config.social.map(link => {
+        const Icon = iconMap[link.icon] || null;
+        return (
+            <a 
+                href={link.href} 
+                aria-label={link.label}
+                class="w-10 h-10 flex items-center justify-center border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-colors dark:bg-black dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+                set:html={Icon}
+            />
+        );
+    })}
+</div>

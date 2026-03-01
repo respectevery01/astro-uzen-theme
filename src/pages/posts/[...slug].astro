@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import config from '../../config.json';
+import SocialShare from '../../components/SocialShare.astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('posts');
@@ -62,18 +63,54 @@ const { Content } = await post.render();
             prose-p:font-serif prose-p:text-gray-800 prose-p:leading-relaxed dark:prose-p:text-gray-300
             prose-a:text-404-pink prose-a:font-bold prose-a:no-underline hover:prose-a:underline hover:prose-a:decoration-2 hover:prose-a:underline-offset-4
             prose-blockquote:border-l-4 prose-blockquote:border-404-yellow prose-blockquote:bg-gray-50 prose-blockquote:p-4 prose-blockquote:font-mono prose-blockquote:not-italic prose-blockquote:text-sm dark:prose-blockquote:bg-gray-900 dark:prose-blockquote:text-gray-300
-            prose-img:border-2 prose-img:border-black prose-img:shadow-brutal-sm dark:prose-img:border-white">
+            prose-img:border-2 prose-img:border-black prose-img:shadow-brutal-sm dark:prose-img:border-white
+            dark:prose-li:text-gray-300 dark:prose-ul:text-gray-300 dark:prose-ol:text-gray-300 dark:prose-strong:text-white
+            dark:prose-code:text-404-pink dark:prose-code:bg-gray-800 dark:prose-code:px-1 dark:prose-code:rounded
+            dark:prose-table:text-gray-300 dark:prose-th:text-white dark:prose-td:border-gray-700">
 			<Content />
 		</div>
         
         <div class="mt-16 pt-8 border-t-4 border-black dark:border-white">
             <div class="bg-404-gray p-8 border-2 border-black text-center dark:bg-gray-900 dark:border-white">
-                <h3 class="font-bold uppercase mb-2 dark:text-white">Enjoyed this story?</h3>
-                <p class="font-mono text-sm mb-4 dark:text-gray-400">Support independent journalism.</p>
-                <button class="bg-black text-white px-6 py-2 font-bold border-2 border-black hover:bg-white hover:text-black transition-colors uppercase text-sm shadow-[2px_2px_0_0_#ff00ff] dark:bg-white dark:text-black dark:border-white dark:hover:bg-black dark:hover:text-white">
-                    Subscribe to {config.siteTitle}
-                </button>
+                <h3 class="font-bold uppercase mb-4 dark:text-white">Share this story</h3>
+                <SocialShare />
             </div>
         </div>
 	</article>
 </Layout>
+
+<style is:global>
+    /* macOS Terminal Style for Code Blocks */
+    .prose pre {
+        position: relative;
+        padding-top: 3rem;
+        border-radius: 0.5rem;
+        background-color: #1e1e1e; /* Dark background */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: 1px solid #333;
+    }
+
+    .prose pre::before {
+        content: "";
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background-color: #ff5f56; /* Red */
+        box-shadow: 1.25rem 0 0 #ffbd2e, 2.5rem 0 0 #27c93f; /* Yellow and Green */
+    }
+
+    /* Optional: Adjust code text color/font if needed */
+    .prose pre code {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    
+    /* Ensure code block content doesn't overlap with the "buttons" */
+    .prose pre > code {
+        display: block;
+    }
+</style>

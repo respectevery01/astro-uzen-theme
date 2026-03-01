@@ -1,5 +1,6 @@
 ---
 import config from '../config.json';
+import SocialShare from './SocialShare.astro';
 ---
 
 <footer class="bg-black text-white pt-16 pb-8 dark:bg-white dark:text-black">
@@ -10,10 +11,8 @@ import config from '../config.json';
         <p class="font-mono text-gray-300 max-w-sm mb-8 dark:text-gray-700">
           {config.siteDescription}
         </p>
-        <div class="flex gap-4">
-            {config.social.map(link => (
-                <a href={link.href} class="border border-white px-4 py-2 hover:bg-white hover:text-black transition-colors font-mono text-sm uppercase dark:border-black dark:hover:bg-black dark:hover:text-white">{link.label}</a>
-            ))}
+        <div>
+            <SocialShare />
         </div>
       </div>
       

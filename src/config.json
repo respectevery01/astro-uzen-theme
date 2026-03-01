@@ -15,9 +15,10 @@
     { "label": "About", "href": "/about" }
   ],
   "social": [
-    { "label": "Twitter", "href": "#" },
-    { "label": "Bluesky", "href": "#" },
-    { "label": "RSS", "href": "#" }
+    { "label": "Twitter", "href": "#", "icon": "twitter" },
+    { "label": "Facebook", "href": "#", "icon": "facebook" },
+    { "label": "Instagram", "href": "#", "icon": "instagram" },
+    { "label": "Weibo", "href": "#", "icon": "weibo" }
   ],
   "marquee": [
     "BREAKING: AI TAKES OVER THE WORLD",

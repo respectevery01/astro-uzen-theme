@@ -7,7 +7,7 @@ image:
     url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1"
     alt: "Mountain landscape"
 category: "Travel"
-featured: true
+featured: false
 ---
 
 # Top 10 Travel Destinations
