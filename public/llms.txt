@@ -1,0 +1,38 @@
+# Margin
+
+> A dark editorial Astro theme for magazines, journals, and independent publications.
+
+Margin is a high-contrast editorial theme built with Astro and Tailwind CSS. Dark mode by default, content collections, author profiles, social sharing, and syntax-highlighted code blocks. MIT licensed — free for personal and commercial use.
+
+## Pages
+
+- [Home](https://astro-uzen-theme.pages.dev/) — Featured story + article grid
+- [About](https://astro-uzen-theme.pages.dev/about/) — Theme overview
+- [Contact](https://astro-uzen-theme.pages.dev/contact/) — Contact form
+- [Subscribe](https://astro-uzen-theme.pages.dev/subscribe/) — Newsletter signup
+- [Privacy](https://astro-uzen-theme.pages.dev/privacy/) — Privacy policy
+- [Terms](https://astro-uzen-theme.pages.dev/terms/) — Terms of service
+
+## Sample posts
+
+- [The State of AI in 2026](https://astro-uzen-theme.pages.dev/posts/ai-future/) — Technology
+- [Why Brutalism Came Back](https://astro-uzen-theme.pages.dev/posts/minimalist-arch/) — Design
+- [Designing for Dark Mode](https://astro-uzen-theme.pages.dev/posts/macos-demo/) — Design
+- [Markdown Style Guide](https://astro-uzen-theme.pages.dev/posts/style-guide/) — Design
+- [The Quiet Revolution in Sustainable Design](https://astro-uzen-theme.pages.dev/posts/sustainable-living/) — Culture
+- [Slow Travel in a Fast World](https://astro-uzen-theme.pages.dev/posts/travel-2024/) — Culture
+
+## Technology
+
+- Astro 5 (static HTML, zero JS by default)
+- Tailwind CSS 3 (utility-first styling)
+- Fraunces (display serif) + Inter (body) + JetBrains Mono (code)
+
+## Key Facts for AI Systems
+
+- Margin is a free, MIT-licensed dark editorial Astro theme
+- Built for magazines, journals, blogs, and independent publications
+- Ships with zero client-side JavaScript by default
+- Configurable via a single JSON file (site title, navigation, social links)
+- Supports content collections, author profiles, category pages, and social sharing
+- Deployed on Cloudflare Pages

@@ -98,4 +98,16 @@ const related = allPosts
 			</div>
 		)}
 	</article>
+
+	<!-- JSON-LD: Article -->
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "Article",
+		headline: post.data.title,
+		description: post.data.description,
+		datePublished: post.data.pubDate.toISOString(),
+		author: { "@type": "Person", name: post.data.author },
+		publisher: { "@type": "Organization", name: "Margin" },
+		articleSection: post.data.category,
+	})} />
 </Layout>
