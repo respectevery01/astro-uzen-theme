@@ -1,113 +1,90 @@
-# Magazine Theme for Astro
+# Margin
 
-A high-contrast, brutalist-inspired magazine theme built with Astro, Tailwind CSS, and TypeScript. Designed for speed, readability, and a bold visual style.
+A dark editorial Astro theme for magazines, journals, and independent publications. Built for speed, readability, and bold typography.
 
 ## Features
 
-- **Brutalist Design**: High contrast typography, bold borders, and a distinct visual identity.
-- **Dark Mode Support**: Fully optimized dark mode with high contrast text and UI elements.
-- **Responsive Layout**: Works seamlessly on mobile, tablet, and desktop devices.
-- **Content Collections**: Easy content management using Astro Content Collections.
-- **Author Profiles**: Dedicated author pages and attribution (configurable via `config.json`).
-- **Social Sharing**: Integrated social sharing icons (Twitter, Facebook, Instagram, Weibo).
-- **Code Highlighting**: Beautifully styled code blocks with macOS terminal aesthetics.
-- **Flexible Configuration**: Customize site title, description, navigation, social links, and footer via a single JSON file.
+- **Dark Mode** — High-contrast dark theme designed for readability
+- **Content Collections** — Manage posts with Astro's built-in content layer
+- **Author Profiles** — Dedicated author pages and attribution
+- **Social Sharing** — Built-in share buttons for Twitter, Facebook, and more
+- **Code Highlighting** — Styled code blocks with monospace aesthetics
+- **Responsive** — Works on mobile, tablet, and desktop
+- **Configurable** — Customize everything from a single `config.json`
+- **Zero JS** — Ships with no client-side JavaScript by default
 
-## Getting Started
+## Tech Stack
 
-### Prerequisites
+- [Astro](https://astro.build) — Static site generator
+- [Tailwind CSS](https://tailwindcss.com) — Utility-first CSS
+- [Fraunces](https://fonts.google.com/specimen/Fraunces) — Display serif
+- [Inter](https://fonts.google.com/specimen/Inter) — Body sans-serif
+- [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) — Code
 
-- Node.js (v18 or higher)
-- npm, pnpm, or yarn
+## Quick Start
 
-### Installation
+```bash
+git clone https://github.com/respectevery01/astro-uzen-theme.git
+cd astro-uzen-theme
+npm install
+npm run dev
+```
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/magazine-theme.git
-   cd magazine-theme
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Build for production:
-   ```bash
-   npm run build
-   ```
+Open `http://localhost:4321` in your browser.
 
 ## Configuration
 
-Customize the site settings in `src/config.json`:
+All site settings live in `src/config.json`:
 
 ```json
 {
-  "siteTitle": "Uzen",
-  "siteDescription": "Reporting on the internet, technology, and the future.",
-  "enableAuthor": true, // Enable/disable author features
+  "siteTitle": "Margin",
+  "siteDescription": "A dark editorial blog theme.",
   "navigation": [
     { "label": "Home", "href": "/" },
     { "label": "About", "href": "/about" }
-    // Add more links here
   ],
-  "social": [
-    { "label": "Twitter", "href": "#", "icon": "twitter" },
-    { "label": "Weibo", "href": "#", "icon": "weibo" }
-    // Supports: twitter, facebook, instagram, weibo
+  "socialLinks": [
+    { "label": "Twitter", "href": "#", "icon": "twitter" }
   ],
-  "marquee": [
-    "BREAKING NEWS...",
-    "LATEST UPDATES..."
-  ]
+  "enableAuthor": true
 }
 ```
 
 ## Writing Content
 
-Create new Markdown files in `src/content/posts/`.
+Create Markdown files in `src/content/posts/`:
 
-**Example Frontmatter:**
-
-```yaml
+```markdown
 ---
-title: "The Future of Web Design"
-description: "Exploring new trends in brutalist web design."
+title: "Your Post Title"
+description: "A short summary."
 pubDate: 2024-03-01
-author: "Design Team"
-image: 
+author: "Author Name"
+image:
     url: "https://example.com/image.jpg"
-    alt: "Abstract design"
-category: "Design"
-featured: true # Set to true to display in the hero section
+    alt: "Description"
+category: "Technology"
+featured: true
 ---
+
+Your content here.
 ```
 
-## Styling Guide
+### Supported categories
 
-The theme supports extended Markdown styling:
+Use any category name in the frontmatter. The theme auto-generates category pages at `/category/your-category`.
 
-- **Code Blocks**: macOS terminal style.
-- **Tables**: Styled for readability in both light and dark modes.
-- **Blockquotes**: Distinct left border with yellow accent.
-- **Lists**: Clear hierarchy and spacing.
+## Deployment
 
-Check `src/content/posts/style-guide.md` for a comprehensive overview of supported styles.
+Build for production:
 
-## Favicon
+```bash
+npm run build
+```
 
-Place your favicon in the `public/` directory. The theme automatically detects and uses the first available file in this order:
-
-1. `favicon.jpg`
-2. `favicon.png`
-3. `favicon.svg`
+Deploy the `dist/` folder to any static host — Cloudflare Pages, Netlify, Vercel, or GitHub Pages.
 
 ## License
 
-MIT License
+MIT. Free for personal and commercial use.

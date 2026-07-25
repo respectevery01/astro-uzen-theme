@@ -1,49 +1,44 @@
 {
-  "siteTitle": "Uzen",
-  "siteDescription": "Reporting on the internet, technology, and the future. No algorithms. Just signals. Lesgo",
+  "siteTitle": "Margin",
+  "siteDescription": "A dark editorial blog theme. Built with Astro, Tailwind CSS, and TypeScript.",
   "introSection": {
-    "title": "Welcome to Uzen",
-    "text": "We are a new kind of media company. We don't chase clicks. We chase the truth. Our stories are about the internet, technology, and the future.",
-    "linkText": "Read more about us here",
+    "title": "Margin",
+    "text": "A high-contrast editorial theme for magazines, journals, and independent publications. Dark mode, fast, readable.",
+    "linkText": "Learn more",
     "linkUrl": "/about"
   },
   "navigation": [
     { "label": "Home", "href": "/" },
     { "label": "Technology", "href": "/category/technology" },
-    { "label": "Lifestyle", "href": "/category/lifestyle" },
     { "label": "Design", "href": "/category/design" },
+    { "label": "Culture", "href": "/category/culture" },
     { "label": "About", "href": "/about" }
   ],
   "socialLinks": [
     { "label": "Twitter", "href": "#", "icon": "twitter" },
     { "label": "Facebook", "href": "#", "icon": "facebook" },
-    { "label": "Instagram", "href": "#", "icon": "instagram" },
-    { "label": "Weibo", "href": "#", "icon": "weibo" }
+    { "label": "Instagram", "href": "#", "icon": "instagram" }
   ],
   "shareLinks": [
     { "label": "Twitter", "href": "#", "icon": "twitter" },
-    { "label": "Facebook", "href": "#", "icon": "facebook" },
-    { "label": "Weibo", "href": "#", "icon": "weibo" }
+    { "label": "Facebook", "href": "#", "icon": "facebook" }
   ],
   "marquee": [
-    "BREAKING: AI TAKES OVER THE WORLD",
-    "NEW CYBERPUNK AESTHETICS TRENDING",
-    "SUBSCRIBE FOR EXCLUSIVE CONTENT",
-    "SYSTEM UPDATE: 404 MEDIA RELOADED"
+    "MARGIN — A DARK EDITORIAL ASTRO THEME",
+    "BUILT FOR SPEED, READABILITY, AND BOLD TYPOGRAPHY",
+    "CONTENT COLLECTIONS, DARK MODE, SOCIAL SHARING",
+    "MIT LICENSED — FREE FOR ANY USE"
   ],
   "enableAuthor": true,
   "footer": {
     "sections": [
-      { "label": "Technology", "href": "#" },
-      { "label": "Design", "href": "#" },
-      { "label": "Culture", "href": "#" },
-      { "label": "Travel", "href": "#" }
+      { "label": "Technology", "href": "/category/technology" },
+      { "label": "Design", "href": "/category/design" },
+      { "label": "Culture", "href": "/category/culture" }
     ],
     "legal": [
       { "label": "Privacy Policy", "href": "/privacy" },
-      { "label": "Terms of Service", "href": "/terms" },
-      { "label": "Masthead", "href": "#" },
-      { "label": "Contact", "href": "#" }
+      { "label": "Terms of Service", "href": "/terms" }
     ]
   }
 }

@@ -1,27 +1,15 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import fs from 'node:fs';
-import path from 'node:path';
+import config from '../config.json';
 
 interface Props {
 	title: string;
-    description?: string;
+	description?: string;
 }
 
-const { title, description = "Tech, hacking, and the internet." } = Astro.props;
-
-// Favicon detection logic
-const publicDir = path.join(process.cwd(), 'public');
-let favicon = { href: '/favicon.svg', type: 'image/svg+xml' };
-
-if (fs.existsSync(path.join(publicDir, 'favicon.jpg'))) {
-    favicon = { href: '/favicon.jpg', type: 'image/jpeg' };
-} else if (fs.existsSync(path.join(publicDir, 'favicon.png'))) {
-    favicon = { href: '/favicon.png', type: 'image/png' };
-} else if (fs.existsSync(path.join(publicDir, 'favicon.svg'))) {
-    favicon = { href: '/favicon.svg', type: 'image/svg+xml' };
-}
+const { title, description = config.siteDescription } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.pages.dev').toString();
 ---
 
 <!doctype html>
@@ -29,80 +17,132 @@ if (fs.existsSync(path.join(publicDir, 'favicon.jpg'))) {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type={favicon.type} href={favicon.href} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+		<link rel="canonical" href={canonical} />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 		<title>{title}</title>
-        <script is:inline>
-            // Check for dark mode preference
-            if (
-              localStorage.getItem('color-theme') === 'dark' ||
-              (!('color-theme' in localStorage) &&
-                window.matchMedia('(prefers-color-scheme: dark)').matches)
-            ) {
-              document.documentElement.classList.add('dark');
-            } else {
-              document.documentElement.classList.remove('dark');
-            }
-        </script>
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			name: "Margin",
+			url: "https://margin.pages.dev",
+			description: config.siteDescription
+		})} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			name: "Margin",
+			url: "https://margin.pages.dev"
+		})} />
 	</head>
-	<body class="bg-white text-black dark:bg-black dark:text-white font-sans min-h-screen flex flex-col selection:bg-404-pink selection:text-white overflow-x-hidden">
+	<body class="bg-[#0e0a0c] text-[#9a9088] min-h-screen flex flex-col antialiased">
 		<Header />
-        <main class="flex-grow">
-		    <slot />
-        </main>
-        <Footer />
+		<main class="flex-grow">
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
 <style is:global>
-    /* macOS Terminal Style for Code Blocks */
-    .prose pre {
-        position: relative;
-        padding-top: 3rem;
-        border-radius: 0.5rem;
-        background-color: #1e1e1e; /* Dark background */
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        border: 1px solid #333;
-    }
+	/* ── Base ─────────────────────────────── */
+	* { -webkit-font-smoothing: antialiased; }
+	body {
+		font-family: 'Inter', -apple-system, system-ui, sans-serif;
+		line-height: 1.6;
+	}
+	a { color: inherit; text-decoration: none; }
+	::selection {
+		background: rgba(212,50,74,0.25);
+		color: #f5f0ea;
+	}
 
-    /* Dark mode override for code blocks to ensure consistency */
-    :global(.dark) .prose pre {
-        background-color: #000 !important;
-        border: 1px solid #333 !important; /* White border for high contrast */
-        box-shadow: none !important;
-    }
-    
-    /* Ensure code block content has transparent background so parent color shows */
-    :global(.dark) .prose pre code,
-    :global(.dark) .prose pre code span {
-        background-color: transparent !important;
-    }
+	/* ── Prose (article reading) ─────────── */
+	.prose {
+		font-family: 'Inter', sans-serif;
+		max-width: 680px;
+	}
+	.prose h1, .prose h2, .prose h3, .prose h4 {
+		font-family: 'Fraunces', serif;
+		color: #f5f0ea;
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+	.prose h2 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+	.prose h3 { font-size: 1.35rem; margin-top: 2rem; margin-bottom: 0.75rem; }
+	.prose p {
+		color: #9a9088;
+		line-height: 1.85;
+		font-size: 1.05rem;
+		margin-bottom: 1.25rem;
+	}
+	.prose a {
+		color: #f2a8b3;
+		border-bottom: 1px solid rgba(242,168,179,0.3);
+		transition: border-color 0.2s;
+	}
+	.prose a:hover { border-bottom-color: #f2a8b3; }
+	.prose strong { color: #f5f0ea; font-weight: 600; }
+	.prose blockquote {
+		border-left: 2px solid #d4324a;
+		padding-left: 1.5rem;
+		margin: 1.5rem 0;
+		font-style: italic;
+		color: #9a9088;
+	}
+	.prose ul, .prose ol {
+		color: #9a9088;
+		padding-left: 1.5rem;
+		margin-bottom: 1.25rem;
+	}
+	.prose li { margin-bottom: 0.5rem; line-height: 1.75; }
+	.prose code {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.875rem;
+		background: rgba(245,240,234,0.06);
+		padding: 0.15rem 0.4rem;
+		border-radius: 3px;
+		color: #f2a8b3;
+	}
+	.prose pre {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.875rem;
+		line-height: 1.6;
+		background: #131012;
+		border: 1px solid rgba(245,240,234,0.07);
+		border-radius: 3px;
+		padding: 1.25rem;
+		overflow-x: auto;
+		margin: 1.5rem 0;
+	}
+	.prose pre code {
+		background: transparent;
+		padding: 0;
+		color: #f5f0ea;
+	}
+	.prose img {
+		border-radius: 3px;
+		margin: 1.5rem 0;
+	}
+	.prose hr {
+		border: none;
+		border-top: 1px solid rgba(245,240,234,0.07);
+		margin: 2.5rem 0;
+	}
 
-    .prose pre::before {
-        content: "";
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        width: 0.75rem;
-        height: 0.75rem;
-        border-radius: 50%;
-        background-color: #ff5f56; /* Red */
-        box-shadow: 1.25rem 0 0 #ffbd2e, 2.5rem 0 0 #27c93f; /* Yellow and Green */
-    }
-
-    /* Optional: Adjust code text color/font if needed */
-    .prose pre code {
-        font-family: 'Space Mono', monospace;
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    
-    /* Ensure code block content doesn't overlap with the "buttons" */
-    .prose pre > code {
-        display: block;
-    }
+	/* ── Scrollbar ───────────────────────── */
+	::-webkit-scrollbar { width: 6px; }
+	::-webkit-scrollbar-track { background: transparent; }
+	::-webkit-scrollbar-thumb { background: rgba(245,240,234,0.1); border-radius: 3px; }
 </style>

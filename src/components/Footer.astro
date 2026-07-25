@@ -1,43 +1,19 @@
 ---
 import config from '../config.json';
-import SocialShare from './SocialShare.astro';
 ---
 
-<footer class="bg-black text-white pt-16 pb-8 dark:bg-white dark:text-black">
-  <div class="container mx-auto px-4">
-    <div class="grid md:grid-cols-4 gap-12 mb-16">
-      <div class="col-span-1 md:col-span-2">
-        <h3 class="text-4xl font-mono font-bold mb-6 text-404-pink">{config.siteTitle}.</h3>
-        <p class="font-mono text-gray-300 max-w-sm mb-8 dark:text-gray-700">
-          {config.siteDescription}
-        </p>
-        <div>
-            <SocialShare links={config.socialLinks} inverted={true} />
-        </div>
-      </div>
-      
-      <div>
-        <h4 class="font-bold text-white mb-6 uppercase tracking-wider border-b border-gray-800 pb-2 dark:text-black dark:border-gray-200">Sections</h4>
-        <ul class="space-y-3 font-mono text-sm text-gray-300 dark:text-gray-700">
-            {config.footer.sections.map(link => (
-                <li><a href={link.href} class="hover:text-white transition-colors dark:hover:text-black">>> {link.label}</a></li>
-            ))}
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-bold text-white mb-6 uppercase tracking-wider border-b border-gray-800 pb-2 dark:text-black dark:border-gray-200">Legal</h4>
-        <ul class="space-y-3 font-mono text-sm text-gray-300 dark:text-gray-700">
-            {config.footer.legal.map(link => (
-                <li><a href={link.href} class="hover:text-white transition-colors dark:hover:text-black">{link.label}</a></li>
-            ))}
-        </ul>
-      </div>
-    </div>
-    
-    <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center font-mono text-xs text-gray-500 dark:border-gray-200 dark:text-gray-500">
-      <div>&copy; {new Date().getFullYear()} {config.siteTitle}. All rights reserved.</div>
-      </div>
-    </div>
-  </div>
+<footer class="border-t border-white/[0.07] py-8">
+	<div class="max-w-[1280px] mx-auto px-8 flex flex-col items-center gap-3">
+		<div class="flex gap-5">
+			{config.footer.sections.map(item => (
+				<a href={item.href} class="text-[13px] text-[#625b58] hover:text-[#f5f0ea] transition-colors">{item.label}</a>
+			))}
+			{config.footer.legal.map(item => (
+				<a href={item.href} class="text-[13px] text-[#625b58] hover:text-[#f5f0ea] transition-colors">{item.label}</a>
+			))}
+		</div>
+		<div class="font-mono text-[11px] text-[#3e3a3c]">
+			{config.siteTitle}. All rights reserved.
+		</div>
+	</div>
 </footer>

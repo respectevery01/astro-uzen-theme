@@ -1,23 +1,15 @@
 ---
 title: "Privacy Policy"
-description: "Privacy Policy for Uzen"
-showSocial: false
+description: "How Margin handles data."
+pubDate: 2024-01-01
 ---
 
-**Last Updated: [Current Date]**
+# Privacy Policy
 
-### 1. Introduction
-Welcome to **Uzen**. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+Margin is a static website theme. It does not collect personal data, use cookies, or run analytics by default.
 
-### 2. Information We Collect
-We may collect, use, store and transfer different kinds of personal data about you which we have grouped together follows:
-*   **Identity Data** includes first name, maiden name, last name, username or similar identifier.
-*   **Contact Data** includes billing address, delivery address, email address and telephone numbers.
+If you deploy this theme and add analytics or forms, you are responsible for your own privacy policy. The theme itself ships with no tracking.
 
-### 3. How We Use Your Personal Data
-We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:
-*   Where we need to perform the contract we are about to enter into or have entered into with you.
-*   Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests.
+## Contact
 
-### 4. Data Security
-We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed.
+For questions about this theme, open an issue on GitHub.

@@ -1,26 +1,31 @@
 ---
-title: "About Uzen"
-description: "Reporting on the internet, technology, and the future. No algorithms. Just signals. Lesgo"
-showSocial: true
+title: "About Margin"
+description: "A dark editorial Astro theme for magazines, journals, and independent publications."
+pubDate: 2024-01-01
 ---
 
-### Our Mission
+# About Margin
 
-We founded **Uzen** because we believe the internet is broken, and we want to help fix it.
-Algorithms have taken over, prioritizing engagement over truth, and clickbait over substance.
-We are here to provide a signal in the noise.
+Margin is a dark editorial theme built for magazines, journals, and independent publications. It prioritizes readability, speed, and bold typography.
 
-### What We Cover
+## What's included
 
-Our team of journalists and researchers focuses on:
+- Dark mode by default with high-contrast text
+- Content collections for easy post management
+- Author profiles and attribution
+- Social sharing buttons
+- Syntax-highlighted code blocks
+- Responsive layout for all devices
+- Configurable via a single JSON file
 
-*   **The Internet:** How it shapes our lives, culture, and democracy.
-*   **Technology:** Beyond the hype, looking at the real-world impact of AI, crypto, and surveillance.
-*   **The Future:** Not just what's next, but what *should* be next.
+## Built with
 
-> "We don't chase clicks. We chase the truth."
+- [Astro](https://astro.build) — static site generator, zero JS by default
+- [Tailwind CSS](https://tailwindcss.com) — utility-first styling
+- [Fraunces](https://fonts.google.com/specimen/Fraunces) — display serif
+- [Inter](https://fonts.google.com/specimen/Inter) — body sans-serif
+- [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) — code
 
-### Support Independent Journalism
+## License
 
-We are 100% independent and reader-supported. We don't answer to venture capitalists or corporate overlords.
-We answer to you. If you value our work, please consider subscribing.
+MIT. Free for personal and commercial use.

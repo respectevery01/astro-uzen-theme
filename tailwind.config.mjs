@@ -5,22 +5,22 @@ export default {
 	theme: {
 		extend: {
       fontFamily: {
-        sans: ['"Space Mono"', 'monospace'],
-        serif: ['"IBM Plex Serif"', 'serif'],
-        mono: ['"Space Mono"', 'monospace'],
+        sans: ['Inter', '-apple-system', 'system-ui', 'sans-serif'],
+        serif: ['Fraunces', '"Noto Serif SC"', 'serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
-        // 404 Media inspired color palette
-        '404-black': '#000000',
-        '404-pink': '#ff00ff', // A vibrant magenta
-        '404-yellow': '#ffff00', // Warning yellow
-        '404-gray': '#f2f2f2',
+        lychee: {
+          red: '#d4324a',
+          deep: '#a52136',
+          pink: '#f2a8b3',
+          white: '#f5f0ea',
+          pale: '#ede5db',
+        },
       },
-      boxShadow: {
-        'brutal': '4px 4px 0 0 #000',
-        'brutal-sm': '2px 2px 0 0 #000',
-        'brutal-hover': '2px 2px 0 0 #000',
-      }
+      borderRadius: {
+        DEFAULT: '3px',
+      },
     },
 	},
 	plugins: [

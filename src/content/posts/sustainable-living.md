@@ -1,23 +1,31 @@
 ---
-title: "Sustainable Living: A Guide for 2024"
-description: "Practical tips for reducing your carbon footprint."
-pubDate: 2023-10-20
-author: "John Smith"
-image: 
+title: "The Quiet Revolution in Sustainable Design"
+description: "Sustainability in design stopped being a marketing claim and became a technical requirement. Here is what changed."
+pubDate: 2024-01-25
+author: "Editorial"
+image:
     url: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b43"
     alt: "Green plants"
-category: "Lifestyle"
+category: "Culture"
 featured: false
 ---
 
-# Sustainable Living
+For years, "sustainable design" meant slapping a leaf icon on a product page and calling it green. That era is ending. Sustainability has become a technical discipline — measurable, quantifiable, and increasingly regulated.
 
-Living sustainably doesn't mean you have to give up all modern comforts. Small changes can make a big difference.
+## The carbon cost of websites
 
-## Reduce, Reuse, Recycle
+Every page load consumes energy. The server processes the request, the network transmits the data, the device renders it. Multiply by billions of page views per day, and the internet's carbon footprint rivals the aviation industry.
 
-The classic mantra still holds true. Reducing consumption is the most effective way to lower your environmental impact.
+The biggest contributors are not what you'd expect. It is not the images. It is the JavaScript — megabytes of framework code downloaded, parsed, and executed on every visit, most of it doing nothing the user asked for.
 
-## Local Produce
+## What sustainable design looks like
 
-Buying local not only supports your community but also reduces the carbon emissions associated with transporting food.
+- Ship less code. Every kilobyte has a carbon cost.
+- Use static generation where possible. No server round-trips.
+- Choose green hosting. Major cloud providers now publish their energy mix.
+- Compress images properly. WebP and AVIF exist. Use them.
+- Lazy load everything below the fold.
+
+## The business case
+
+Google uses page weight and energy efficiency as ranking signals. Sustainable sites load faster. Faster sites rank higher and convert better. The environmental argument and the business argument point the same direction.
