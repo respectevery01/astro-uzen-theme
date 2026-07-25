@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Subscribe — Margin" description="Subscribe to Margin for weekly stories worth reading.">
+	<section class="max-w-[680px] mx-auto px-8 py-20 text-center">
+		<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[#d4324a] mb-6">
+			Newsletter
+		</div>
+		<h1 class="font-serif text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-[#f5f0ea] mb-4">
+			One email per week.<br>
+			<em class="italic font-normal text-[#f2a8b3]">No noise.</em>
+		</h1>
+		<p class="text-[17px] text-[#9a9088] leading-[1.6] mb-12 max-w-[440px] mx-auto">
+			Subscribe for weekly stories on technology, design, and culture. No spam, no daily emails, no algorithm. Just writing worth your time.
+		</p>
+
+		<form class="flex gap-2 max-w-[420px] mx-auto mb-6">
+			<input type="email" name="email" required placeholder="you@example.com"
+				class="flex-1 bg-transparent border border-white/[0.1] text-[#f5f0ea] text-[15px] px-4 py-3 rounded-[3px] focus:border-[#d4324a] focus:outline-none transition-colors" />
+			<button type="submit"
+				class="bg-[#d4324a] text-[#f5f0ea] text-[14px] font-semibold px-6 py-3 rounded-[3px] hover:bg-[#a52136] transition-colors whitespace-nowrap">
+				Subscribe
+			</button>
+		</form>
+		<p class="text-[12px] text-[#3e3a3c] font-mono">
+			Free. Unsubscribe anytime. No tracking.
+		</p>
+	</section>
+</Layout>
