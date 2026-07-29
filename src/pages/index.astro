@@ -18,13 +18,13 @@ const formatDate = (d: Date) => {
 
 <Layout title={`${config.siteTitle} — ${config.siteDescription}`}>
 	<!-- ═══ FEATURED — asymmetric 7/5 ═══ -->
-	<section class="max-w-[1280px] mx-auto px-8 pt-14 pb-20">
-		<div class="grid grid-cols-12 gap-12 items-end">
-			<div class="col-span-12 md:col-span-7">
+	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-16 md:pb-20">
+		<div class="flex flex-col md:grid md:grid-cols-12 md:gap-12 md:items-end">
+			<div class="col-span-12 md:col-span-7 min-w-0">
 				<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-4">
 					{featuredPost.data.category} · {formatDate(featuredPost.data.pubDate)}
 				</div>
-				<h1 class="font-serif text-[42px] md:text-[48px] font-bold leading-[1.12] tracking-tight text-ink mb-[18px]">
+				<h1 class="font-serif text-[30px] sm:text-[36px] md:text-[48px] font-bold leading-[1.12] tracking-tight text-ink mb-[18px]">
 					<a href={`/posts/${featuredPost.slug}`} class="hover:text-accent-soft transition-colors">
 						{featuredPost.data.title}
 					</a>
@@ -41,8 +41,8 @@ const formatDate = (d: Date) => {
 					<span class="font-mono">{formatDate(featuredPost.data.pubDate)}</span>
 				</div>
 			</div>
-			<div class="col-span-12 md:col-span-5">
-				<a href={`/posts/${featuredPost.slug}`} class="block h-[300px] md:h-[340px] rounded-[3px] overflow-hidden bg-surface">
+			<div class="col-span-12 md:col-span-5 mt-6 md:mt-0 min-w-0">
+				<a href={`/posts/${featuredPost.slug}`} class="block h-[260px] md:h-[340px] rounded-[3px] overflow-hidden bg-surface">
 					{featuredPost.data.image ? (
 						<img src={featuredPost.data.image.url} alt={featuredPost.data.image.alt}
 							class="w-full h-full object-cover" loading="eager" />
@@ -57,7 +57,7 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- ═══ ARTICLE GRID — 3 col CSS Grid ═══ -->
-	<section class="max-w-[1280px] mx-auto px-8 pb-20">
+	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pb-16 md:pb-20">
 		<div class="flex items-center gap-3.5 mb-8">
 			<span class="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-muted">Latest Stories</span>
 			<div class="flex-1 h-px bg-[var(--c-border)]"></div>
@@ -99,22 +99,22 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- ═══ INVERTED SECTION — series/editor picks ═══ -->
-	<section class="section-inverted py-18 px-8" style="padding-top:72px; padding-bottom:72px;">
+	<section class="section-inverted px-5 md:px-8" style="padding-top:56px; padding-bottom:56px;">
 		<div class="max-w-[1280px] mx-auto">
-			<div class="flex items-baseline gap-3.5 mb-9">
+			<div class="flex items-baseline gap-3.5 mb-7 md:mb-9">
 				<span class="px-2.5 py-0.5 rounded-[2px] font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent" style="background:color-mix(in srgb, var(--c-accent) 8%, transparent)">
 					Editor's Pick
 				</span>
-				<span class="font-serif text-[24px] font-bold tracking-tight" style="color:var(--c-inv-ink)">In Depth</span>
+				<span class="font-serif text-[20px] md:text-[24px] font-bold tracking-tight" style="color:var(--c-inv-ink)">In Depth</span>
 			</div>
 
-			<div class="grid grid-cols-12 gap-14 items-start">
+			<div class="flex flex-col md:grid md:grid-cols-12 md:gap-14 md:items-start">
 				<!-- Left: wide feature -->
-				<div class="col-span-12 md:col-span-7">
+				<div class="col-span-12 md:col-span-7 min-w-0">
 					<div class="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-accent mb-2.5">
 						Featured Story
 					</div>
-					<h3 class="font-serif text-[28px] font-bold leading-[1.18] tracking-tight mb-3.5" style="color:var(--c-inv-ink)">
+					<h3 class="font-serif text-[22px] md:text-[28px] font-bold leading-[1.18] tracking-tight mb-3.5" style="color:var(--c-inv-ink)">
 						{otherPosts[0]?.data.title || 'Featured Post'}
 					</h3>
 					<p class="font-serif text-[15.5px] leading-[1.7] mb-4" style="color:var(--c-inv-body)">
@@ -126,7 +126,7 @@ const formatDate = (d: Date) => {
 				</div>
 
 				<!-- Right: recent list -->
-				<div class="col-span-12 md:col-span-5">
+				<div class="col-span-12 md:col-span-5 mt-8 md:mt-0 min-w-0">
 					<div class="font-mono text-[11px] uppercase tracking-[0.1em] mb-4.5" style="color:var(--c-inv-muted)">
 						Recent
 					</div>
@@ -148,19 +148,19 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- ═══ Newsletter ═══ -->
-	<section class="py-22 text-center border-t border-[var(--c-border)]" style="padding-top:88px; padding-bottom:88px;">
-		<div class="max-w-[1280px] mx-auto px-8">
-			<h2 class="font-serif text-[30px] font-bold text-ink mb-2.5 tracking-tight">
+	<section class="py-16 md:py-22 text-center border-t border-[var(--c-border)]" style="padding-top:64px; padding-bottom:64px;">
+		<div class="max-w-[1280px] mx-auto px-5 md:px-8">
+			<h2 class="font-serif text-[24px] md:text-[30px] font-bold text-ink mb-2.5 tracking-tight">
 				Stay in the <em class="italic font-normal text-accent-soft">loop</em>
 			</h2>
 			<p class="text-[15px] text-body mb-7">
 				One email per week. No spam, no daily noise. Just the stories worth reading.
 			</p>
-			<form class="flex gap-2 max-w-[400px] mx-auto">
+			<form class="flex flex-col sm:flex-row gap-2 max-w-[400px] mx-auto">
 				<input type="email" placeholder="your@email.com"
-					class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors" />
+					class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors min-w-0" />
 				<button type="button"
-					class="px-6 py-3 bg-accent text-[#f5f0ea] font-semibold text-sm rounded-[3px] hover:bg-accent-deep transition-colors">
+					class="px-6 py-3 bg-accent text-[#f5f0ea] font-semibold text-sm rounded-[3px] hover:bg-accent-deep transition-colors whitespace-nowrap">
 					Try free
 				</button>
 			</form>

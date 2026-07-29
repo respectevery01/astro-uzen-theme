@@ -17,9 +17,9 @@ const { Content } = await page.render();
 ---
 
 <Layout title={`${page.data.title} - ${config.siteTitle}`}>
-    <div class="max-w-[1280px] mx-auto px-8 py-14 max-w-4xl">
-        <header class="mb-12 pb-8 border-b border-[var(--c-border)]">
-            <h1 class="font-serif text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-ink mb-4">
+    <div class="max-w-[1280px] mx-auto px-5 md:px-8 py-10 md:py-14" style="max-width:1024px">
+        <header class="mb-10 md:mb-12 pb-8 border-b border-[var(--c-border)]">
+            <h1 class="font-serif text-[28px] sm:text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-ink mb-4">
                 {page.data.title}
             </h1>
             {page.data.description && (

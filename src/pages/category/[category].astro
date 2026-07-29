@@ -24,11 +24,11 @@ const formatDate = (d: Date) => {
 
 <Layout title={`${category} - ${config.siteTitle}`} description={`Latest stories in ${category}.`}>
 	<!-- Header -->
-	<section class="max-w-[1280px] mx-auto px-8 pt-14 pb-12">
+	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-10 md:pb-12">
 		<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-4">
 			Category
 		</div>
-		<h1 class="font-serif text-[42px] md:text-[56px] font-bold leading-[1.05] tracking-tight text-ink mb-4">
+		<h1 class="font-serif text-[32px] sm:text-[42px] md:text-[56px] font-bold leading-[1.05] tracking-tight text-ink mb-4">
 			{category}
 		</h1>
 		<p class="text-[16px] text-body max-w-[500px]">
@@ -37,7 +37,7 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- Grid -->
-	<section class="max-w-[1280px] mx-auto px-8 pb-20">
+	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pb-16 md:pb-20">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 			{sortedPosts.map((post) => (
 				<article class="flex flex-col cursor-pointer group">

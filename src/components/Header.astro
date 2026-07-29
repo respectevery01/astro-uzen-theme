@@ -4,7 +4,7 @@ import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <header class="sticky top-0 z-50 bg-bg/85 backdrop-blur-xl border-b border-[var(--c-border)]">
-	<div class="max-w-[1280px] mx-auto px-8 h-14 flex items-center justify-between">
+	<div class="max-w-[1280px] mx-auto px-5 md:px-8 h-14 flex items-center justify-between">
 		<!-- Left: logo + nav -->
 		<div class="flex items-center gap-7">
 			<a href="/" class="flex items-center gap-2 font-serif font-bold text-[18px] tracking-tight text-ink">
@@ -44,7 +44,7 @@ import ThemeToggle from './ThemeToggle.astro';
 
 	<!-- Mobile menu -->
 	<div id="mobile-menu" class="hidden md:hidden border-t border-[var(--c-border)]">
-		<nav class="flex flex-col px-8 py-4 gap-4">
+		<nav class="flex flex-col px-5 py-4 gap-4">
 			{config.navigation.map(item => (
 				<a href={item.href} class="text-sm text-muted hover:text-ink">{item.label}</a>
 			))}
