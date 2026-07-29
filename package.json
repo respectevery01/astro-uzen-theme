@@ -1,21 +1,39 @@
 {
-  "name": "astro-magazine",
+  "name": "margin-astro-theme",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.1.0",
+  "description": "A dark editorial Astro theme for magazines, journals, and independent publications. Built for writers who want their words to do the talking.",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro sync && astro build && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/mdx": "^4.0.0",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.3",
-    "@astrojs/tailwind": "^6.0.2",
-    "@tailwindcss/typography": "^0.5.19",
-    "astro": "^5.18.0",
-    "tailwindcss": "^3.4.19"
-  }
+    "@astrojs/sitemap": "^3.0.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "astro": "^5.0.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "pagefind": "^1.5.2"
+  },
+  "license": "MIT",
+  "keywords": [
+    "astro",
+    "astro-theme",
+    "blog",
+    "magazine",
+    "editorial",
+    "dark-mode",
+    "tailwindcss"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/respectevery01/astro-uzen-theme.git"
+  },
+  "homepage": "https://astro-uzen-theme.pages.dev"
 }

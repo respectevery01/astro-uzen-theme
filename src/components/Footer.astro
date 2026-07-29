@@ -2,17 +2,17 @@
 import config from '../config.json';
 ---
 
-<footer class="border-t border-white/[0.07] py-8">
+<footer class="border-t border-[var(--c-border)] py-8">
 	<div class="max-w-[1280px] mx-auto px-8 flex flex-col items-center gap-3">
 		<div class="flex gap-5">
 			{config.footer.sections.map(item => (
-				<a href={item.href} class="text-[13px] text-[#625b58] hover:text-[#f5f0ea] transition-colors">{item.label}</a>
+				<a href={item.href} class="text-[13px] text-muted hover:text-ink transition-colors">{item.label}</a>
 			))}
 			{config.footer.legal.map(item => (
-				<a href={item.href} class="text-[13px] text-[#625b58] hover:text-[#f5f0ea] transition-colors">{item.label}</a>
+				<a href={item.href} class="text-[13px] text-muted hover:text-ink transition-colors">{item.label}</a>
 			))}
 		</div>
-		<div class="font-mono text-[11px] text-[#3e3a3c]">
+		<div class="font-mono text-[11px] text-faint">
 			{config.siteTitle}. All rights reserved.
 		</div>
 	</div>

@@ -9,13 +9,6 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
 const featuredPost = sortedPosts.find(post => post.data.featured) || sortedPosts[0];
 const otherPosts = sortedPosts.filter(post => post.slug !== featuredPost.slug);
 
-const tagColors: Record<string, string> = {
-	'Technology': 'text-[#d4324a]',
-	'Lifestyle': 'text-[#f2a8b3]',
-	'Design': 'text-[#6dd58c]',
-};
-const getTagColor = (cat: string) => tagColors[cat] || 'text-[#d4324a]';
-
 const formatDate = (d: Date) => {
 	const m = String(d.getMonth() + 1).padStart(2, '0');
 	const day = String(d.getDate()).padStart(2, '0');
@@ -28,20 +21,20 @@ const formatDate = (d: Date) => {
 	<section class="max-w-[1280px] mx-auto px-8 pt-14 pb-20">
 		<div class="grid grid-cols-12 gap-12 items-end">
 			<div class="col-span-12 md:col-span-7">
-				<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[#d4324a] mb-4">
-					{getTagColor(featuredPost.data.category) && `${featuredPost.data.category} · ${formatDate(featuredPost.data.pubDate)}`}
+				<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-4">
+					{featuredPost.data.category} · {formatDate(featuredPost.data.pubDate)}
 				</div>
-				<h1 class="font-serif text-[42px] md:text-[48px] font-bold leading-[1.12] tracking-tight text-[#f5f0ea] mb-[18px]">
-					<a href={`/posts/${featuredPost.slug}`} class="hover:text-[#f2a8b3] transition-colors">
+				<h1 class="font-serif text-[42px] md:text-[48px] font-bold leading-[1.12] tracking-tight text-ink mb-[18px]">
+					<a href={`/posts/${featuredPost.slug}`} class="hover:text-accent-soft transition-colors">
 						{featuredPost.data.title}
 					</a>
 				</h1>
-				<p class="text-[16px] text-[#9a9088] leading-[1.7] max-w-[500px] mb-6">
+				<p class="text-[16px] text-body leading-[1.7] max-w-[500px] mb-6">
 					{featuredPost.data.description}
 				</p>
-				<div class="flex items-center gap-2.5 text-[13px] text-[#625b58]">
-					<span class="w-[26px] h-[26px] rounded-full bg-gradient-to-br from-[#d4324a] to-[#a52136]"></span>
-					<span class="font-medium text-[#9a9088]">{featuredPost.data.author}</span>
+				<div class="flex items-center gap-2.5 text-[13px] text-muted">
+					<span class="w-[26px] h-[26px] rounded-full" style="background:linear-gradient(135deg, var(--c-accent), var(--c-accent-deep))"></span>
+					<span class="font-medium text-body">{featuredPost.data.author}</span>
 					<span>·</span>
 					<span>Editorial</span>
 					<span>·</span>
@@ -49,13 +42,13 @@ const formatDate = (d: Date) => {
 				</div>
 			</div>
 			<div class="col-span-12 md:col-span-5">
-				<a href={`/posts/${featuredPost.slug}`} class="block h-[300px] md:h-[340px] rounded-[3px] overflow-hidden bg-[#131012]">
+				<a href={`/posts/${featuredPost.slug}`} class="block h-[300px] md:h-[340px] rounded-[3px] overflow-hidden bg-surface">
 					{featuredPost.data.image ? (
 						<img src={featuredPost.data.image.url} alt={featuredPost.data.image.alt}
 							class="w-full h-full object-cover" loading="eager" />
 					) : (
 						<div class="w-full h-full flex items-center justify-center">
-							<span class="font-serif text-[80px] font-bold italic text-[#d4324a]/5">{featuredPost.data.category}</span>
+							<span class="font-serif text-[80px] font-bold italic" style="color:color-mix(in srgb, var(--c-accent) 5%, transparent)">{featuredPost.data.category}</span>
 						</div>
 					)}
 				</a>
@@ -65,18 +58,16 @@ const formatDate = (d: Date) => {
 
 	<!-- ═══ ARTICLE GRID — 3 col CSS Grid ═══ -->
 	<section class="max-w-[1280px] mx-auto px-8 pb-20">
-		<!-- Section label -->
 		<div class="flex items-center gap-3.5 mb-8">
-			<span class="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#625b58]">Latest Stories</span>
-			<div class="flex-1 h-px bg-white/[0.07]"></div>
-			<span class="font-mono text-[11px] text-[#3e3a3c]">{otherPosts.length} posts</span>
+			<span class="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-muted">Latest Stories</span>
+			<div class="flex-1 h-px bg-[var(--c-border)]"></div>
+			<span class="font-mono text-[11px] text-faint">{otherPosts.length} posts</span>
 		</div>
 
-		<!-- Grid -->
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="article-grid">
 			{otherPosts.map((post) => (
 				<article class="flex flex-col cursor-pointer group">
-					<a href={`/posts/${post.slug}`} class="block aspect-[16/9] rounded-[3px] overflow-hidden bg-[#131012] mb-4">
+					<a href={`/posts/${post.slug}`} class="block aspect-[16/9] rounded-[3px] overflow-hidden bg-surface mb-4">
 						{post.data.image ? (
 							<img src={post.data.image.url} alt={post.data.image.alt}
 								class="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
@@ -85,21 +76,21 @@ const formatDate = (d: Date) => {
 							<div class="w-full h-full"></div>
 						)}
 					</a>
-					<div class={getTagColor(post.data.category) + ' font-mono text-[10px] font-medium uppercase tracking-[0.1em] mb-2'}>
+					<div class="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-accent mb-2">
 						{post.data.category}
 					</div>
-					<h3 class="font-serif text-[19px] font-semibold leading-[1.3] tracking-tight text-[#f5f0ea] mb-2">
-						<a href={`/posts/${post.slug}`} class="group-hover:text-[#f2a8b3] transition-colors">
+					<h3 class="font-serif text-[19px] font-semibold leading-[1.3] tracking-tight text-ink mb-2">
+						<a href={`/posts/${post.slug}`} class="group-hover:text-accent-soft transition-colors">
 							{post.data.title}
 						</a>
 					</h3>
-					<p class="text-[14px] text-[#625b58] leading-[1.55] line-clamp-2 mb-3">
+					<p class="text-[14px] text-muted leading-[1.55] line-clamp-2 mb-3">
 						{post.data.description}
 					</p>
-					<div class="mt-auto flex items-center gap-2 font-mono text-[12px] text-[#3e3a3c]">
-						<span class="w-[18px] h-[18px] rounded-full bg-gradient-to-br from-[#d4324a] to-[#a52136]"></span>
+					<div class="mt-auto flex items-center gap-2 font-mono text-[12px] text-faint">
+						<span class="w-[18px] h-[18px] rounded-full" style="background:linear-gradient(135deg, var(--c-accent), var(--c-accent-deep))"></span>
 						{post.data.author}
-						<span class="w-[3px] h-[3px] rounded-full bg-[#3e3a3c]"></span>
+						<span class="w-[3px] h-[3px] rounded-full bg-faint"></span>
 						{formatDate(post.data.pubDate)}
 					</div>
 				</article>
@@ -107,49 +98,49 @@ const formatDate = (d: Date) => {
 		</div>
 	</section>
 
-	<!-- ═══ LIGHT SECTION — series/editor picks ═══ -->
-	<section class="bg-[#f5f0ea] py-18 px-8" style="padding-top:72px; padding-bottom:72px;">
+	<!-- ═══ INVERTED SECTION — series/editor picks ═══ -->
+	<section class="section-inverted py-18 px-8" style="padding-top:72px; padding-bottom:72px;">
 		<div class="max-w-[1280px] mx-auto">
 			<div class="flex items-baseline gap-3.5 mb-9">
-				<span class="px-2.5 py-0.5 bg-[#d4324a]/8 rounded-[2px] font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-[#d4324a]">
+				<span class="px-2.5 py-0.5 rounded-[2px] font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent" style="background:color-mix(in srgb, var(--c-accent) 8%, transparent)">
 					Editor's Pick
 				</span>
-				<span class="font-serif text-[24px] font-bold text-[#1a1115] tracking-tight">In Depth</span>
+				<span class="font-serif text-[24px] font-bold tracking-tight" style="color:var(--c-inv-ink)">In Depth</span>
 			</div>
 
 			<div class="grid grid-cols-12 gap-14 items-start">
 				<!-- Left: wide feature -->
 				<div class="col-span-12 md:col-span-7">
-					<div class="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-[#d4324a] mb-2.5">
+					<div class="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-accent mb-2.5">
 						Featured Story
 					</div>
-					<h3 class="font-serif text-[28px] font-bold leading-[1.18] tracking-tight text-[#1a1115] mb-3.5">
+					<h3 class="font-serif text-[28px] font-bold leading-[1.18] tracking-tight mb-3.5" style="color:var(--c-inv-ink)">
 						{otherPosts[0]?.data.title || 'Featured Post'}
 					</h3>
-					<p class="font-serif text-[15.5px] text-[#524c4a] leading-[1.7] mb-4">
+					<p class="font-serif text-[15.5px] leading-[1.7] mb-4" style="color:var(--c-inv-body)">
 						{otherPosts[0]?.data.description}
 					</p>
-					<div class="font-mono text-[12px] text-[#8a827e]">
+					<div class="font-mono text-[12px]" style="color:var(--c-inv-muted)">
 						{otherPosts[0]?.data.author} · {otherPosts[0] && formatDate(otherPosts[0].data.pubDate)}
 					</div>
 				</div>
 
 				<!-- Right: recent list -->
 				<div class="col-span-12 md:col-span-5">
-					<div class="font-mono text-[11px] uppercase tracking-[0.1em] text-[#8a827e] mb-4.5">
+					<div class="font-mono text-[11px] uppercase tracking-[0.1em] mb-4.5" style="color:var(--c-inv-muted)">
 						Recent
 					</div>
 					<div class="flex flex-col">
 						{sortedPosts.slice(0, 5).map((post) => (
 							<a href={`/posts/${post.slug}`}
-								class="py-3.5 border-t border-[#1a1115]/[0.08] hover:opacity-70 transition-opacity">
-								<div class="font-mono text-[11px] text-[#8a827e] mb-0.5">{formatDate(post.data.pubDate)}</div>
-								<div class="font-serif text-[15px] font-semibold text-[#1a1115] leading-[1.35]">
+								class="py-3.5 border-t hover:opacity-70 transition-opacity" style="border-color:var(--c-inv-border)">
+								<div class="font-mono text-[11px] mb-0.5" style="color:var(--c-inv-muted)">{formatDate(post.data.pubDate)}</div>
+								<div class="font-serif text-[15px] font-semibold leading-[1.35]" style="color:var(--c-inv-ink)">
 									{post.data.title}
 								</div>
 							</a>
 						))}
-						<div class="border-b border-[#1a1115]/[0.08]"></div>
+						<div class="border-b" style="border-color:var(--c-inv-border)"></div>
 					</div>
 				</div>
 			</div>
@@ -157,19 +148,19 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- ═══ Newsletter ═══ -->
-	<section class="py-22 text-center border-t border-white/[0.07]" style="padding-top:88px; padding-bottom:88px;">
+	<section class="py-22 text-center border-t border-[var(--c-border)]" style="padding-top:88px; padding-bottom:88px;">
 		<div class="max-w-[1280px] mx-auto px-8">
-			<h2 class="font-serif text-[30px] font-bold text-[#f5f0ea] mb-2.5 tracking-tight">
-				Stay in the <em class="italic font-normal text-[#f2a8b3]">loop</em>
+			<h2 class="font-serif text-[30px] font-bold text-ink mb-2.5 tracking-tight">
+				Stay in the <em class="italic font-normal text-accent-soft">loop</em>
 			</h2>
-			<p class="text-[15px] text-[#9a9088] mb-7">
+			<p class="text-[15px] text-body mb-7">
 				One email per week. No spam, no daily noise. Just the stories worth reading.
 			</p>
 			<form class="flex gap-2 max-w-[400px] mx-auto">
 				<input type="email" placeholder="your@email.com"
-					class="flex-1 px-4 py-3 bg-[#131012] border border-white/[0.07] rounded-[3px] text-[#f5f0ea] text-sm outline-none focus:border-[#d4324a]/25 transition-colors" />
+					class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors" />
 				<button type="button"
-					class="px-6 py-3 bg-[#d4324a] text-[#f5f0ea] font-semibold text-sm rounded-[3px] hover:bg-[#a52136] transition-colors">
+					class="px-6 py-3 bg-accent text-[#f5f0ea] font-semibold text-sm rounded-[3px] hover:bg-accent-deep transition-colors">
 					Try free
 				</button>
 			</form>

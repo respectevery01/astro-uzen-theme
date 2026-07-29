@@ -2,18 +2,21 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import config from '../config.json';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
 	title: string;
 	description?: string;
+	image?: string;
 }
 
-const { title, description = config.siteDescription } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.pages.dev').toString();
+const { title, description = config.siteDescription, image } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site || 'https://astro-uzen-theme.pages.dev').toString();
+const ogImage = image || '/og.png';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
@@ -25,28 +28,42 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		<meta name="theme-color" content="#0e0a0c" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#faf8f6" media="(prefers-color-scheme: light)" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 		<title>{title}</title>
+
+		<!-- Anti-FOUC theme script -->
+		<script is:inline>
+			(function() {
+				const stored = localStorage.getItem('margin-theme');
+				const theme = stored || 'dark';
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
+
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "Organization",
-			name: "Margin",
-			url: "https://margin.pages.dev",
+			name: config.siteTitle,
+			url: "https://astro-uzen-theme.pages.dev",
 			description: config.siteDescription
 		})} />
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
 			"@type": "WebSite",
-			name: "Margin",
-			url: "https://margin.pages.dev"
+			name: config.siteTitle,
+			url: "https://astro-uzen-theme.pages.dev"
 		})} />
 	</head>
-	<body class="bg-[#0e0a0c] text-[#9a9088] min-h-screen flex flex-col antialiased">
+	<body class="bg-bg text-body min-h-screen flex flex-col antialiased">
 		<Header />
 		<main class="flex-grow">
 			<slot />
@@ -56,6 +73,48 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 </html>
 
 <style is:global>
+	/* ── Theme Tokens ────────────────────── */
+	:root,
+	[data-theme="dark"] {
+		--c-bg: #0e0a0c;
+		--c-surface: #131012;
+		--c-ink: #f5f0ea;
+		--c-body: #9a9088;
+		--c-muted: #625b58;
+		--c-faint: #3e3a3c;
+		--c-border: rgba(245,240,234,0.07);
+		--c-border-strong: rgba(245,240,234,0.12);
+		--c-accent: #d4324a;
+		--c-accent-deep: #a52136;
+		--c-accent-soft: #f2a8b3;
+		/* Inverted section (light block in dark theme) */
+		--c-inv-bg: #f5f0ea;
+		--c-inv-ink: #1a1115;
+		--c-inv-body: #524c4a;
+		--c-inv-muted: #8a827e;
+		--c-inv-border: rgba(26,17,21,0.08);
+	}
+
+	[data-theme="light"] {
+		--c-bg: #faf8f6;
+		--c-surface: #f0ede8;
+		--c-ink: #1a1115;
+		--c-body: #524c4a;
+		--c-muted: #8a827e;
+		--c-faint: #b5ada8;
+		--c-border: rgba(26,17,21,0.08);
+		--c-border-strong: rgba(26,17,21,0.15);
+		--c-accent: #d4324a;
+		--c-accent-deep: #a52136;
+		--c-accent-soft: #c25668;
+		/* Inverted section (dark block in light theme) */
+		--c-inv-bg: #1a1115;
+		--c-inv-ink: #f5f0ea;
+		--c-inv-body: #9a9088;
+		--c-inv-muted: #625b58;
+		--c-inv-border: rgba(245,240,234,0.07);
+	}
+
 	/* ── Base ─────────────────────────────── */
 	* { -webkit-font-smoothing: antialiased; }
 	body {
@@ -65,7 +124,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 	a { color: inherit; text-decoration: none; }
 	::selection {
 		background: rgba(212,50,74,0.25);
-		color: #f5f0ea;
+		color: var(--c-ink);
+	}
+
+	/* ── Inverted section utility ────────── */
+	.section-inverted {
+		background: var(--c-inv-bg);
+		color: var(--c-inv-body);
+	}
+	.section-inverted h1,
+	.section-inverted h2,
+	.section-inverted h3,
+	.section-inverted h4 {
+		color: var(--c-inv-ink);
 	}
 
 	/* ── Prose (article reading) ─────────── */
@@ -75,34 +146,34 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 	}
 	.prose h1, .prose h2, .prose h3, .prose h4 {
 		font-family: 'Fraunces', serif;
-		color: #f5f0ea;
+		color: var(--c-ink);
 		font-weight: 700;
 		letter-spacing: -0.02em;
 	}
 	.prose h2 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; }
 	.prose h3 { font-size: 1.35rem; margin-top: 2rem; margin-bottom: 0.75rem; }
 	.prose p {
-		color: #9a9088;
+		color: var(--c-body);
 		line-height: 1.85;
 		font-size: 1.05rem;
 		margin-bottom: 1.25rem;
 	}
 	.prose a {
-		color: #f2a8b3;
-		border-bottom: 1px solid rgba(242,168,179,0.3);
+		color: var(--c-accent-soft);
+		border-bottom: 1px solid color-mix(in srgb, var(--c-accent-soft) 30%, transparent);
 		transition: border-color 0.2s;
 	}
-	.prose a:hover { border-bottom-color: #f2a8b3; }
-	.prose strong { color: #f5f0ea; font-weight: 600; }
+	.prose a:hover { border-bottom-color: var(--c-accent-soft); }
+	.prose strong { color: var(--c-ink); font-weight: 600; }
 	.prose blockquote {
-		border-left: 2px solid #d4324a;
+		border-left: 2px solid var(--c-accent);
 		padding-left: 1.5rem;
 		margin: 1.5rem 0;
 		font-style: italic;
-		color: #9a9088;
+		color: var(--c-body);
 	}
 	.prose ul, .prose ol {
-		color: #9a9088;
+		color: var(--c-body);
 		padding-left: 1.5rem;
 		margin-bottom: 1.25rem;
 	}
@@ -110,17 +181,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 	.prose code {
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 0.875rem;
-		background: rgba(245,240,234,0.06);
+		background: color-mix(in srgb, var(--c-ink) 6%, transparent);
 		padding: 0.15rem 0.4rem;
 		border-radius: 3px;
-		color: #f2a8b3;
+		color: var(--c-accent-soft);
 	}
 	.prose pre {
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 0.875rem;
 		line-height: 1.6;
-		background: #131012;
-		border: 1px solid rgba(245,240,234,0.07);
+		background: var(--c-surface);
+		border: 1px solid var(--c-border);
 		border-radius: 3px;
 		padding: 1.25rem;
 		overflow-x: auto;
@@ -129,7 +200,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 	.prose pre code {
 		background: transparent;
 		padding: 0;
-		color: #f5f0ea;
+		color: var(--c-ink);
 	}
 	.prose img {
 		border-radius: 3px;
@@ -137,12 +208,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site || 'https://margin.page
 	}
 	.prose hr {
 		border: none;
-		border-top: 1px solid rgba(245,240,234,0.07);
+		border-top: 1px solid var(--c-border);
 		margin: 2.5rem 0;
 	}
 
 	/* ── Scrollbar ───────────────────────── */
 	::-webkit-scrollbar { width: 6px; }
 	::-webkit-scrollbar-track { background: transparent; }
-	::-webkit-scrollbar-thumb { background: rgba(245,240,234,0.1); border-radius: 3px; }
+	::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--c-ink) 10%, transparent); border-radius: 3px; }
+
+	/* ── Theme transition ────────────────── */
+	@media (prefers-reduced-motion: no-preference) {
+		body, body * {
+			transition: background-color 0.2s ease, border-color 0.2s ease;
+		}
+	}
 </style>
