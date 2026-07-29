@@ -1,0 +1,54 @@
+---
+/**
+ * NewsletterForm.astro — email subscription form, reusable
+ *
+ * Usage:
+ *   <NewsletterForm compact={true} />   <!-- inline small version -->
+ *   <NewsletterForm />                   <!-- full centered section version -->
+ */
+import Button from './Button.astro';
+
+interface Props {
+	compact?: boolean;
+	title?: string;
+	titleEmphasis?: string;
+	desc?: string;
+	buttonText?: string;
+	class?: string;
+}
+
+const {
+	compact = false,
+	title = 'Stay in the loop',
+	titleEmphasis = 'loop',
+	desc = 'One email per week. No spam, no daily noise. Just the stories worth reading.',
+	buttonText = 'Try free',
+	class: className = '',
+} = Astro.props;
+---
+
+{compact ? (
+	<!-- Inline compact form (no heading, no border) -->
+	<form class={`flex flex-col sm:flex-row gap-2 max-w-[400px] mx-auto ${className}`}>
+		<input type="email" placeholder="your@email.com"
+			class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors min-w-0" />
+		<Button variant="primary" type="submit">{buttonText}</Button>
+	</form>
+) : (
+	<section class={`text-center border-t border-[var(--c-border)] ${className}`} style="padding-top:64px; padding-bottom:64px;">
+		<div class="max-w-[1280px] mx-auto px-5 md:px-8">
+			<h2 class="font-serif text-[24px] md:text-[30px] font-bold text-ink mb-2.5 tracking-tight">
+				{title.replace(titleEmphasis, '').trim()}{' '}
+				<em class="italic font-normal text-accent-soft">{titleEmphasis}</em>
+			</h2>
+			<p class="text-[15px] text-body mb-7">
+				{desc}
+			</p>
+			<form class="flex flex-col sm:flex-row gap-2 max-w-[400px] mx-auto">
+				<input type="email" placeholder="your@email.com"
+					class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors min-w-0" />
+				<Button variant="primary" type="submit">{buttonText}</Button>
+			</form>
+		</div>
+	</section>
+)}

@@ -1,0 +1,32 @@
+---
+/**
+ * SectionHeading.astro — section header with label + optional divider line
+ *
+ * Usage:
+ *   <SectionHeading label="Latest Stories" count={12} />
+ *   <SectionHeading label="In Depth" badge="Editor's Pick" />
+ */
+interface Props {
+	label: string;
+	count?: number;
+	badge?: string;
+	inverted?: boolean;
+	class?: string;
+}
+
+const { label, count, badge, inverted = false, class: className = '' } = Astro.props;
+import Badge from './Badge.astro';
+---
+
+<div class={`flex items-center gap-3.5 mb-8 ${className}`}>
+	{badge && <Badge variant={inverted ? 'inverted' : 'accent'}>{badge}</Badge>}
+	<span class={`font-mono text-[12px] font-medium uppercase tracking-[0.12em] ${inverted ? 'text-[var(--c-inv-muted)]' : 'text-muted'}`}>
+		{label}
+	</span>
+	<div class="flex-1 h-px" style={`background:${inverted ? 'var(--c-inv-border)' : 'var(--c-border)'} `}></div>
+	{count !== undefined && (
+		<span class={`font-mono text-[11px] ${inverted ? 'text-[var(--c-inv-muted)]' : 'text-faint'}`}>
+			{count} {count === 1 ? 'post' : 'posts'}
+		</span>
+	)}
+</div>

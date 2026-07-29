@@ -1,29 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
 ---
 
 <Layout title="Subscribe — Margin" description="Subscribe to Margin for weekly stories worth reading.">
-	<section class="max-w-[680px] mx-auto px-5 md:px-8 py-14 md:py-20 text-center">
-		<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-6">
-			Newsletter
-		</div>
-		<h1 class="font-serif text-[28px] sm:text-[36px] md:text-[48px] font-bold leading-[1.1] tracking-tight text-ink mb-4">
-			One email per week.<br>
-			<em class="italic font-normal text-accent-soft">No noise.</em>
-		</h1>
-		<p class="text-[17px] text-body leading-[1.6] mb-12 max-w-[440px] mx-auto">
-			Subscribe for weekly stories on technology, design, and culture. No spam, no daily emails, no algorithm. Just writing worth your time.
-		</p>
+	<PageHeader
+		kicker="Newsletter"
+		title="One email per week."
+		titleEmphasis="No noise."
+		desc="Subscribe for weekly stories on technology, design, and culture. No spam, no daily emails, no algorithm. Just writing worth your time."
+	/>
 
-		<form class="flex flex-col sm:flex-row gap-2 max-w-[420px] mx-auto mb-6">
-			<input type="email" name="email" required placeholder="you@example.com"
-				class="flex-1 bg-transparent border border-[var(--c-border-strong)] text-ink text-[15px] px-4 py-3 rounded-[3px] focus:border-accent focus:outline-none transition-colors min-w-0" />
-			<button type="submit"
-				class="bg-accent text-[#f5f0ea] text-[14px] font-semibold px-6 py-3 rounded-[3px] hover:bg-accent-deep transition-colors whitespace-nowrap">
-				Subscribe
-			</button>
-		</form>
-		<p class="text-[12px] text-faint font-mono">
+	<section class="max-w-[680px] mx-auto px-5 md:px-8 pb-14 md:pb-20">
+		<NewsletterForm compact buttonText="Subscribe" />
+		<p class="text-[12px] text-faint font-mono text-center mt-6">
 			Free. Unsubscribe anytime. No tracking.
 		</p>
 	</section>

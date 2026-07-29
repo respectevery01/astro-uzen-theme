@@ -1,0 +1,52 @@
+---
+/**
+ * ReadingProgress.astro — thin accent bar at top of viewport
+ * Tracks scroll position of the article body.
+ * Zero config — just drop in Layout.
+ */
+---
+
+<div id="reading-progress" class="reading-progress"></div>
+
+<style>
+	.reading-progress {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 2px;
+		width: 0%;
+		background: var(--c-accent);
+		z-index: 100;
+		transition: width 0.05s linear;
+		opacity: 0;
+	}
+	.reading-progress.is-visible {
+		opacity: 1;
+	}
+</style>
+
+<script>
+	function init() {
+		const bar = document.getElementById('reading-progress');
+		if (!bar) return;
+
+		function update() {
+			const scrollTop = window.scrollY;
+			const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+			const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+			bar.style.width = pct + '%';
+
+			if (scrollTop > 50) {
+				bar.classList.add('is-visible');
+			} else {
+				bar.classList.remove('is-visible');
+			}
+		}
+
+		window.addEventListener('scroll', update, { passive: true });
+		update();
+	}
+
+	init();
+	document.addEventListener('astro:page-load', init);
+</script>

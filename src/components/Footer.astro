@@ -12,8 +12,44 @@ import config from '../config.json';
 				<a href={item.href} class="text-[13px] text-muted hover:text-ink transition-colors">{item.label}</a>
 			))}
 		</div>
-		<div class="font-mono text-[11px] text-faint">
-			{config.siteTitle}. All rights reserved.
+		<div class="font-mono text-[11px] text-faint flex items-center gap-2">
+			<span>{config.siteTitle}. All rights reserved.</span>
+			<span>·</span>
+			<span id="busuanzi_container_site_uv" style="display:none">
+				<span id="busuanzi_value_site_uv"></span> visitors
+			</span>
+			<span id="busuanzi_container_site_pv" style="display:none">
+				· <span id="busuanzi_value_site_pv"></span> views
+			</span>
 		</div>
 	</div>
 </footer>
+
+<script>
+	function fetchBusuanzi() {
+		const cbName = 'BusuanziCallback_' + Math.floor(1099511627776 * Math.random());
+		window[cbName] = function(data) {
+			const keys = ['site_pv', 'page_pv', 'site_uv'];
+			keys.forEach(key => {
+				const val = document.getElementById('busuanzi_value_' + key);
+				const container = document.getElementById('busuanzi_container_' + key);
+				if (val && container && data[key] !== undefined) {
+					val.textContent = data[key];
+					container.style.removeProperty('display');
+				}
+			});
+			delete window[cbName];
+			const oldScript = document.getElementById('bsz-jsonp');
+			if (oldScript) oldScript.remove();
+		};
+
+		const script = document.createElement('script');
+		script.id = 'bsz-jsonp';
+		script.defer = true;
+		script.src = '//busuanzi.ibruce.info/busuanzi?jsonpCallback=' + cbName;
+		document.head.appendChild(script);
+	}
+
+	fetchBusuanzi();
+	document.addEventListener('astro:page-load', fetchBusuanzi);
+</script>

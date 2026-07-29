@@ -1,0 +1,240 @@
+---
+/**
+ * SeriesBar.astro — series navigator for multi-part articles
+ * Shows: series name, current position, progress bar, prev/next links
+ *
+ * Usage:
+ *   <SeriesBar posts={seriesPosts} currentSlug={post.slug} seriesName="Building a Startup" />
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+	posts: Array<{ slug: string; data: { title: string; seriesOrder?: number } }>;
+	currentSlug: string;
+	seriesName: string;
+}
+
+const { posts, currentSlug, seriesName } = Astro.props;
+
+const sorted = [...posts].sort((a, b) =>
+	(a.data.seriesOrder || 0) - (b.data.seriesOrder || 0)
+);
+
+const currentIndex = sorted.findIndex(p => p.slug === currentSlug);
+const prev = currentIndex > 0 ? sorted[currentIndex - 1] : null;
+const next = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
+const total = sorted.length;
+const current = currentIndex + 1;
+const progress = total > 0 ? Math.round((current / total) * 100) : 0;
+---
+
+<div class="series-bar">
+	<!-- Header: name + count -->
+	<div class="series-bar__head">
+		<a href={`/series/${seriesName.toLowerCase().replace(/\s+/g, '-')}/`} class="series-bar__name">
+			<Icon name="bookmark" size={14} stroke={true} />
+			{seriesName}
+		</a>
+		<span class="series-bar__count font-mono">{current} / {total}</span>
+	</div>
+
+	<!-- Progress bar -->
+	<div class="series-bar__track">
+		<div class="series-bar__fill" style={`width:${progress}%`}></div>
+	</div>
+
+	<!-- All parts list -->
+	<div class="series-bar__list">
+		{sorted.map((p, i) => (
+			<a
+				href={p.slug === currentSlug ? undefined : `/posts/${p.slug}`}
+				class={`series-bar__item ${p.slug === currentSlug ? 'is-current' : ''}`}
+			>
+				<span class="series-bar__num font-mono">{String(i + 1).padStart(2, '0')}</span>
+				<span class="series-bar__title">{p.data.title}</span>
+				{p.slug === currentSlug && (
+					<span class="series-bar__here font-mono">here</span>
+				)}
+			</a>
+		))}
+	</div>
+
+	<!-- Prev / Next -->
+	<div class="series-bar__nav">
+		{prev ? (
+			<a href={`/posts/${prev.slug}`} class="series-bar__link series-bar__link--prev">
+				<Icon name="arrow-left" size={14} stroke={true} />
+				<span class="series-bar__link-label">Previous</span>
+				<span class="series-bar__link-title">{prev.data.title}</span>
+			</a>
+		) : (
+			<span class="series-bar__link series-bar__link--prev series-bar__link--disabled">
+				<Icon name="arrow-left" size={14} stroke={true} />
+				<span class="series-bar__link-label">Previous</span>
+			</span>
+		)}
+		{next ? (
+			<a href={`/posts/${next.slug}`} class="series-bar__link series-bar__link--next">
+				<span class="series-bar__link-label">Next</span>
+				<span class="series-bar__link-title">{next.data.title}</span>
+				<Icon name="arrow-right" size={14} stroke={true} />
+			</a>
+		) : (
+			<span class="series-bar__link series-bar__link--next series-bar__link--disabled">
+				<span class="series-bar__link-label">Next</span>
+				<Icon name="arrow-right" size={14} stroke={true} />
+			</span>
+		)}
+	</div>
+</div>
+
+<style>
+	.series-bar {
+		padding: 1.5rem;
+		border: 1px solid var(--c-border);
+		border-radius: 3px;
+		background: var(--c-surface);
+	}
+
+	/* Head */
+	.series-bar__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.75rem;
+	}
+	.series-bar__name {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: 'Fraunces', serif;
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--c-ink);
+	}
+	.series-bar__name:hover {
+		color: var(--c-accent-soft);
+	}
+	.series-bar__count {
+		font-size: 11px;
+		color: var(--c-faint);
+	}
+
+	/* Progress */
+	.series-bar__track {
+		height: 2px;
+		background: var(--c-border);
+		border-radius: 1px;
+		margin-bottom: 1rem;
+		overflow: hidden;
+	}
+	.series-bar__fill {
+		height: 100%;
+		background: var(--c-accent);
+		transition: width 0.4s ease;
+	}
+
+	/* List */
+	.series-bar__list {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		margin-bottom: 1.25rem;
+	}
+	.series-bar__item {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.4rem 0.25rem;
+		font-size: 13px;
+		color: var(--c-muted);
+		border-radius: 2px;
+		transition: color 0.15s, background 0.15s;
+	}
+	.series-bar__item:hover:not(.is-current) {
+		color: var(--c-ink);
+		background: color-mix(in srgb, var(--c-ink) 4%, transparent);
+	}
+	.series-bar__item.is-current {
+		color: var(--c-accent);
+		font-weight: 500;
+	}
+	.series-bar__num {
+		font-size: 10px;
+		color: var(--c-faint);
+		flex-shrink: 0;
+		width: 20px;
+	}
+	.is-current .series-bar__num {
+		color: var(--c-accent);
+	}
+	.series-bar__title {
+		flex: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.series-bar__here {
+		font-size: 10px;
+		color: var(--c-accent);
+		flex-shrink: 0;
+	}
+
+	/* Prev / Next */
+	.series-bar__nav {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--c-border);
+	}
+	.series-bar__link {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		padding: 0.6rem 0.75rem;
+		border-radius: 2px;
+		transition: background 0.15s;
+	}
+	.series-bar__link:hover:not(.series-bar__link--disabled) {
+		background: color-mix(in srgb, var(--c-ink) 4%, transparent);
+	}
+	.series-bar__link--next {
+		text-align: right;
+		align-items: flex-end;
+	}
+	.series-bar__link--disabled {
+		opacity: 0.3;
+		pointer-events: none;
+	}
+	.series-bar__link-label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 10px;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--c-faint);
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.series-bar__link-title {
+		font-size: 13px;
+		font-weight: 500;
+		color: var(--c-ink);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 100%;
+	}
+
+	/* Mobile: stack prev/next */
+	@media (max-width: 480px) {
+		.series-bar__nav {
+			grid-template-columns: 1fr;
+		}
+		.series-bar__link--next {
+			text-align: left;
+			align-items: flex-start;
+		}
+	}
+</style>

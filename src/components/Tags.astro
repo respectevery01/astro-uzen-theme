@@ -1,0 +1,25 @@
+---
+/**
+ * Tags.astro — tag list display for article footer
+ * Reusable pill-style tag links
+ *
+ * Usage: <Tags tags={post.data.tags} />
+ */
+interface Props {
+	tags: string[];
+	class?: string;
+}
+
+const { tags, class: className = '' } = Astro.props;
+---
+
+{tags && tags.length > 0 && (
+	<div class={`flex flex-wrap gap-2 ${className}`}>
+		{tags.map(tag => (
+			<a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`}
+				class="font-mono text-[11px] px-2.5 py-1 rounded-[3px] bg-surface text-muted hover:text-accent-soft hover:border-accent border border-[var(--c-border)] transition-colors">
+				#{tag}
+			</a>
+		))}
+	</div>
+)}

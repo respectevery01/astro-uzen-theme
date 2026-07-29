@@ -6,8 +6,10 @@ author: "Design Desk"
 image:
     url: "https://images.unsplash.com/photo-1542831371-29b0f74f9713"
     alt: "Code and design"
-category: "Design"
+category: "Technology"
 featured: false
+series: "Building with AI"
+seriesOrder: 3
 ---
 
 Dark mode is easy to get wrong. Most implementations are lazy inversions: take the light theme, flip the colors, ship it. The result is grey text on grey background, unreadable in low light, harsh in bright environments.

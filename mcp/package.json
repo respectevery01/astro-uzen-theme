@@ -1,0 +1,23 @@
+{
+  "name": "margin-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Margin — the editorial Astro blog theme",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "margin-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}

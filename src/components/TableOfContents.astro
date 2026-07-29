@@ -1,0 +1,64 @@
+---
+/**
+ * TableOfContents.astro — sticky TOC sidebar with scroll spy
+ *
+ * Usage:
+ *   <TableOfContents headings={tocHeadings} />
+ */
+interface Heading {
+	depth: number;
+	slug: string;
+	text: string;
+}
+
+interface Props {
+	headings: Heading[];
+}
+
+const { headings } = Astro.props;
+---
+
+{headings.length > 0 && (
+	<aside class="hidden lg:block col-span-3 col-start-10">
+		<div class="sticky top-20">
+			<div class="font-mono text-[10px] uppercase tracking-[0.12em] text-faint mb-4 pb-3 border-b border-[var(--c-border)]">
+				On This Page
+			</div>
+			<nav class="flex flex-col gap-2.5 toc-nav">
+				{headings.map(h => (
+					<a href={`#${h.slug}`}
+						class={`text-[13px] leading-[1.4] text-muted hover:text-ink transition-colors toc-link toc-depth-${h.depth}`}
+						data-heading={h.slug}>
+						{h.text}
+					</a>
+				))}
+			</nav>
+		</div>
+	</aside>
+)}
+
+<style>
+	.toc-depth-3 { padding-left: 14px; font-size: 12px; }
+	.toc-active { color: var(--c-accent) !important; }
+</style>
+
+<script>
+	const links = document.querySelectorAll('.toc-link');
+	const headings = Array.from(links).map(link => {
+		const id = link.getAttribute('data-heading');
+		return { el: document.getElementById(id || ''), link };
+	}).filter(h => h.el);
+
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			const matching = headings.find(h => h.el === entry.target);
+			if (!matching) return;
+			if (entry.isIntersecting) {
+				links.forEach(l => l.classList.remove('toc-active'));
+				matching.link.classList.add('toc-active');
+			}
+		});
+	}, { rootMargin: '-80px 0px -70% 0px' });
+
+	headings.forEach(h => observer.observe(h.el));
+</script>

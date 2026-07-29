@@ -1,0 +1,69 @@
+---
+/**
+ * BackToTop.astro — floating button, appears after scrolling one viewport
+ * Smooth scroll to top on click.
+ */
+import Icon from './Icon.astro';
+---
+
+<button id="back-to-top" class="back-to-top" aria-label="Back to top">
+	<Icon name="arrow-up" size={18} stroke={true} />
+</button>
+
+<style>
+	.back-to-top {
+		position: fixed;
+		bottom: 24px;
+		right: 24px;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 3px;
+		background: var(--c-surface);
+		border: 1px solid var(--c-border);
+		color: var(--c-muted);
+		cursor: pointer;
+		opacity: 0;
+		transform: translateY(8px);
+		transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s, color 0.2s;
+		z-index: 90;
+		pointer-events: none;
+	}
+	.back-to-top.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+	.back-to-top:hover {
+		border-color: var(--c-accent);
+		color: var(--c-accent);
+	}
+</style>
+
+<script>
+	function init() {
+		const btn = document.getElementById('back-to-top');
+		if (!btn) return;
+
+		function toggle() {
+			if (window.scrollY > window.innerHeight * 0.8) {
+				btn.classList.add('is-visible');
+			} else {
+				btn.classList.remove('is-visible');
+			}
+		}
+
+		btn.addEventListener('click', () => {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		});
+
+		window.addEventListener('scroll', toggle, { passive: true });
+		toggle();
+	}
+
+	// Initial load + after every View Transition
+	init();
+	document.addEventListener('astro:page-load', init);
+</script>

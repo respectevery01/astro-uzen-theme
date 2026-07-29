@@ -1,0 +1,40 @@
+---
+/**
+ * Avatar.astro — gradient circle avatar with initials
+ *
+ * Usage:
+ *   <Avatar name="Jask" size={26} />
+ *   <Avatar name={post.data.author} size={52} />
+ */
+interface Props {
+	name: string;
+	size?: number;
+	class?: string;
+}
+
+const { name, size = 26, class: className = '' } = Astro.props;
+const initial = name.charAt(0).toUpperCase();
+const fontRatio = Math.round(size * 0.42);
+---
+
+<span
+	class={`ui-avatar ${className}`}
+	style={`width:${size}px;height:${size}px;font-size:${fontRatio}px`}
+	aria-label={name}
+>
+	{initial}
+</span>
+
+<style>
+	.ui-avatar {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		background: linear-gradient(135deg, var(--c-accent), var(--c-accent-deep));
+		color: #f5f0ea;
+		font-family: 'Fraunces', serif;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+</style>

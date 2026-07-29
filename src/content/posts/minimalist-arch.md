@@ -6,8 +6,10 @@ author: "Design Desk"
 image:
     url: "https://images.unsplash.com/photo-1555066931-4365d14bab8c"
     alt: "Code on screen"
-category: "Design"
+category: "Technology"
 featured: false
+series: "Building with AI"
+seriesOrder: 2
 ---
 
 For a decade, every website looked the same. Same rounded corners. Same gradient hero. Same sans-serif type. Same three-column card grid. The internet became a airport lounge — comfortable, identical, forgettable.

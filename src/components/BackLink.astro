@@ -1,0 +1,21 @@
+---
+/**
+ * BackLink.astro — back navigation link with arrow
+ *
+ * Usage:
+ *   <BackLink href="/">Back to home</BackLink>
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+	href: string;
+	class?: string;
+}
+
+const { href, class: className = '' } = Astro.props;
+---
+
+<a href={href} class={`inline-flex items-center gap-2 text-[13px] text-muted hover:text-ink transition-colors mb-10 ${className}`}>
+	<Icon name="arrow-left" size={14} stroke={true} />
+	<slot />
+</a>

@@ -1,0 +1,66 @@
+---
+/**
+ * Busuanzi.astro — 不蒜子 visitor/pageview counter
+ * Compatible with Astro View Transitions (re-fetches on every page swap).
+ *
+ * Usage:
+ *   <Busuanzi />              <!-- full: visitors + views -->
+ *   <Busuanzi mode="page" />  <!-- pageviews only -->
+ */
+interface Props {
+	mode?: 'full' | 'page';
+}
+
+const { mode = 'full' } = Astro.props;
+---
+
+<div id="busuanzi" class="busuanzi" data-mode={mode}>
+	<span class="font-mono text-[11px] text-faint">
+		{mode === 'full' && (
+			<>
+				<span id="busuanzi_container_site_uv" class="bsz-container" style="display:none">
+					<span id="busuanzi_value_site_uv"></span> visitors ·
+				</span>
+				<span id="busuanzi_container_site_pv" class="bsz-container" style="display:none">
+					<span id="busuanzi_value_site_pv"></span> views
+				</span>
+			</>
+		)}
+		{mode === 'page' && (
+			<span id="busuanzi_container_page_pv" class="bsz-container" style="display:none">
+				<span id="busuanzi_value_page_pv"></span> views
+			</span>
+		)}
+	</span>
+</div>
+
+<script>
+	function fetchBusuanzi() {
+		const cbName = 'BusuanziCallback_' + Math.floor(1099511627776 * Math.random());
+		window[cbName] = function(data) {
+			const keys = ['site_pv', 'page_pv', 'site_uv'];
+			keys.forEach(key => {
+				const val = document.getElementById('busuanzi_value_' + key);
+				const container = document.getElementById('busuanzi_container_' + key);
+				if (val && container && data[key] !== undefined) {
+					val.textContent = data[key];
+					container.style.display = 'inline';
+				}
+			});
+			// Cleanup
+			delete window[cbName];
+			const oldScript = document.getElementById('bsz-jsonp');
+			if (oldScript) oldScript.remove();
+		};
+
+		const script = document.createElement('script');
+		script.id = 'bsz-jsonp';
+		script.defer = true;
+		script.src = '//busuanzi.ibruce.info/busuanzi?jsonpCallback=' + cbName;
+		document.head.appendChild(script);
+	}
+
+	// Initial + every View Transition
+	fetchBusuanzi();
+	document.addEventListener('astro:page-load', fetchBusuanzi);
+</script>

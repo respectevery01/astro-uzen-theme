@@ -1,8 +1,11 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import BackToTop from '../components/BackToTop.astro';
+import Lightbox from '../components/Lightbox.astro';
 import config from '../config.json';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title: string;
@@ -40,14 +43,18 @@ const ogImage = image || '/og.png';
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 		<title>{title}</title>
 
-		<!-- Anti-FOUC theme script -->
+		<!-- Anti-FOUC theme script — follows system preference by default -->
 		<script is:inline>
 			(function() {
 				const stored = localStorage.getItem('margin-theme');
-				const theme = stored || 'dark';
+				const sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = stored || (sysDark ? 'dark' : 'light');
 				document.documentElement.setAttribute('data-theme', theme);
 			})();
 		</script>
+
+		<!-- View Transitions -->
+		<ClientRouter />
 
 		<script type="application/ld+json" set:html={JSON.stringify({
 			"@context": "https://schema.org",
@@ -64,15 +71,26 @@ const ogImage = image || '/og.png';
 		})} />
 	</head>
 	<body class="bg-bg text-body min-h-screen flex flex-col antialiased overflow-x-hidden">
+		<ReadingProgress />
 		<Header />
 		<main class="flex-grow">
 			<slot />
 		</main>
 		<Footer />
+		<BackToTop />
+		<Lightbox />
 	</body>
 </html>
 
 <style is:global>
+	/* ── View Transitions ─────────────────── */
+	@supports (view-transition-name: none) {
+		::view-transition-old(root),
+		::view-transition-new(root) {
+			animation-duration: 0.2s;
+		}
+	}
+
 	/* ── Theme Tokens ────────────────────── */
 	:root,
 	[data-theme="dark"] {

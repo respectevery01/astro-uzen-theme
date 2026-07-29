@@ -8,6 +8,8 @@ image:
     alt: "AI abstract art"
 category: "Technology"
 featured: true
+series: "Building with AI"
+seriesOrder: 1
 ---
 
 Two years ago, every conversation about AI started with "will it replace us?" That question is dead. The real question now is "how fast can we wire it into our stack?"

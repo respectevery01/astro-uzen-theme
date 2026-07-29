@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import config from '../../config.json';
 
 export async function getStaticPaths() {
@@ -14,60 +16,19 @@ export async function getStaticPaths() {
 
 const { category, posts } = Astro.props;
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const formatDate = (d: Date) => {
-	const m = String(d.getMonth() + 1).padStart(2, '0');
-	const day = String(d.getDate()).padStart(2, '0');
-	return `${m}.${day}`;
-};
 ---
 
 <Layout title={`${category} - ${config.siteTitle}`} description={`Latest stories in ${category}.`}>
-	<!-- Header -->
-	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-10 md:pb-12">
-		<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-4">
-			Category
-		</div>
-		<h1 class="font-serif text-[32px] sm:text-[42px] md:text-[56px] font-bold leading-[1.05] tracking-tight text-ink mb-4">
-			{category}
-		</h1>
-		<p class="text-[16px] text-body max-w-[500px]">
-			{sortedPosts.length} {sortedPosts.length === 1 ? 'story' : 'stories'} in this category.
-		</p>
-	</section>
+	<PageHeader
+		kicker="Category"
+		title={category}
+		desc={`${sortedPosts.length} ${sortedPosts.length === 1 ? 'story' : 'stories'} in this category.`}
+	/>
 
-	<!-- Grid -->
 	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pb-16 md:pb-20">
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 			{sortedPosts.map((post) => (
-				<article class="flex flex-col cursor-pointer group">
-					<a href={`/posts/${post.slug}`} class="block aspect-[16/9] rounded-[3px] overflow-hidden bg-surface mb-4">
-						{post.data.image ? (
-							<img src={post.data.image.url} alt={post.data.image.alt}
-								class="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-								loading="lazy" />
-						) : (
-							<div class="w-full h-full"></div>
-						)}
-					</a>
-					<div class="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-accent mb-2">
-						{post.data.category}
-					</div>
-					<h3 class="font-serif text-[19px] font-semibold leading-[1.3] tracking-tight text-ink mb-2">
-						<a href={`/posts/${post.slug}`} class="group-hover:text-accent-soft transition-colors">
-							{post.data.title}
-						</a>
-					</h3>
-					<p class="text-[14px] text-muted leading-[1.55] line-clamp-2 mb-3">
-						{post.data.description}
-					</p>
-					<div class="mt-auto flex items-center gap-2 font-mono text-[12px] text-faint">
-						<span class="w-[18px] h-[18px] rounded-full" style="background:linear-gradient(135deg, var(--c-accent), var(--c-accent-deep))"></span>
-						{post.data.author}
-						<span class="w-[3px] h-[3px] rounded-full bg-faint"></span>
-						{formatDate(post.data.pubDate)}
-					</div>
-				</article>
+				<PostCard post={post} />
 			))}
 		</div>
 	</section>

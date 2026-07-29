@@ -1,0 +1,80 @@
+---
+/**
+ * PostCard.astro — reusable article card
+ *
+ * Usage: <PostCard post={post} />
+ *        <PostCard post={post} featured />
+ */
+import Icon from './Icon.astro';
+import Avatar from './Avatar.astro';
+import Badge from './Badge.astro';
+import { formatDateShort } from '../lib/dates';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+	post: CollectionEntry<'posts'>;
+	featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const hasImage = post.data.image?.url;
+---
+
+<article class={`post-card group ${featured ? 'post-card--featured' : ''}`}>
+	<a href={`/posts/${post.slug}`} class="block">
+		<!-- Cover -->
+		<div class={`post-card__cover ${featured ? 'aspect-[16/10]' : 'aspect-[16/9]'} rounded-[3px] overflow-hidden bg-surface mb-4`}>
+			{hasImage ? (
+				<img
+					src={post.data.image!.url}
+					alt={post.data.image!.alt || post.data.title}
+					class="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+					loading={featured ? 'eager' : 'lazy'}
+				/>
+			) : (
+				<div class="w-full h-full flex items-center justify-center text-faint">
+					<Icon name="image" size={28} />
+				</div>
+			)}
+		</div>
+
+		<!-- Meta -->
+		<div class="flex items-center gap-2 mb-2">
+			<Badge>{post.data.category}</Badge>
+			<span class="text-faint text-[11px]">·</span>
+			<span class="font-mono text-[10px] text-faint flex items-center gap-1">
+				<Icon name="clock" size={11} />
+				{formatDateShort(post.data.pubDate)}
+			</span>
+		</div>
+
+		<!-- Title -->
+		<h3 class={`font-serif ${featured ? 'text-[22px]' : 'text-[19px]'} font-semibold leading-[1.3] tracking-tight text-ink mb-2`}>
+			<span class="group-hover:text-accent-soft transition-colors">
+				{post.data.title}
+			</span>
+		</h3>
+
+		<!-- Excerpt -->
+		<p class="text-[14px] text-muted leading-[1.55] line-clamp-2 mb-3">
+			{post.data.description}
+		</p>
+
+		<!-- Footer -->
+		<div class="mt-auto flex items-center gap-2 font-mono text-[12px] text-faint">
+			<Avatar name={post.data.author} size={18} />
+			{post.data.author}
+			<span class="w-[3px] h-[3px] rounded-full bg-faint"></span>
+			{formatDateShort(post.data.pubDate)}
+		</div>
+	</a>
+</article>
+
+<style>
+	.post-card :global(.line-clamp-2) {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+</style>

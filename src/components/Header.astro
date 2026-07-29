@@ -1,6 +1,8 @@
 ---
 import config from '../config.json';
 import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
 ---
 
 <header class="sticky top-0 z-50 bg-bg/85 backdrop-blur-xl border-b border-[var(--c-border)]">
@@ -20,24 +22,16 @@ import ThemeToggle from './ThemeToggle.astro';
 
 		<!-- Right: actions -->
 		<div class="flex items-center gap-2">
-			<!-- Search trigger -->
 			<a href="/search" class="flex items-center justify-center w-9 h-9 rounded-[3px] hover:bg-surface text-muted hover:text-ink transition-colors" aria-label="Search">
-				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-					<circle cx="11" cy="11" r="8" />
-					<path d="m21 21-4.35-4.35" />
-				</svg>
+				<Icon name="search" size={18} />
 			</a>
 			<ThemeToggle />
-			<a href="/subscribe" class="hidden sm:flex items-center bg-accent text-[#f5f0ea] text-[13px] font-semibold px-4 py-1.5 rounded-[3px] hover:bg-accent-deep transition-colors no-underline ml-1">
+			<Button href="/subscribe" size="sm" variant="primary" class="hidden sm:inline-flex ml-1">
 				Subscribe
-			</a>
+			</Button>
 			<!-- Mobile menu toggle -->
-			<button id="mobile-menu-toggle" class="md:hidden text-muted ml-1">
-				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-					<line x1="4" x2="20" y1="8" y2="8"/>
-					<line x1="4" x2="20" y1="14" y2="14"/>
-					<line x1="4" x2="20" y1="20" y2="20"/>
-				</svg>
+			<button id="mobile-menu-toggle" class="md:hidden text-muted ml-1" aria-label="Menu">
+				<Icon name="menu" size={22} />
 			</button>
 		</div>
 	</div>
@@ -54,7 +48,12 @@ import ThemeToggle from './ThemeToggle.astro';
 </header>
 
 <script>
-	var btn = document.getElementById('mobile-menu-toggle');
-	var menu = document.getElementById('mobile-menu');
-	btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+	function initMobileMenu() {
+		var btn = document.getElementById('mobile-menu-toggle');
+		var menu = document.getElementById('mobile-menu');
+		btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+	}
+
+	initMobileMenu();
+	document.addEventListener('astro:page-load', initMobileMenu);
 </script>

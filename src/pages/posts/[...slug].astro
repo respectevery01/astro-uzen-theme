@@ -1,8 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
 import SocialShare from '../../components/SocialShare.astro';
+import BackLink from '../../components/BackLink.astro';
+import Badge from '../../components/Badge.astro';
+import Avatar from '../../components/Avatar.astro';
+import Icon from '../../components/Icon.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import SeriesBar from '../../components/SeriesBar.astro';
 import config from '../../config.json';
+import { formatDate } from '../../lib/dates';
+import { estimateReadingTime } from '../../lib/readingTime';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('posts');
@@ -15,28 +24,26 @@ export async function getStaticPaths() {
 const post = Astro.props;
 const { Content, headings } = await post.render();
 
-const formatDate = (d: Date) => {
-	return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-};
-
 const allPosts = await getCollection('posts');
 const related = allPosts
 	.filter(p => p.data.category === post.data.category && p.slug !== post.slug)
 	.slice(0, 3);
 
+// Reading time
+const readMins = estimateReadingTime(post.body);
+
 // TOC: only h2 and h3
 const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+// Series
+const seriesPosts = post.data.series
+	? allPosts.filter(p => p.data.series === post.data.series)
+	: [];
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
 	<article class="max-w-[1280px] mx-auto px-5 md:px-8 py-10 md:py-14">
-		<!-- Back link -->
-		<a href="/" class="inline-flex items-center gap-2 text-[13px] text-muted hover:text-ink transition-colors mb-10">
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-				<path d="M19 12H5M12 19l-7-7 7-7"/>
-			</svg>
-			Back to home
-		</a>
+		<BackLink href="/">Back to home</BackLink>
 
 		<div class="flex flex-col lg:grid lg:grid-cols-12 lg:gap-12">
 			<!-- Main column -->
@@ -44,9 +51,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 				<!-- Article header -->
 				<header class="max-w-[680px] mb-12">
 					<div class="flex items-center gap-3 mb-4">
-						<span class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent">
-							{post.data.category}
-						</span>
+						<Badge>{post.data.category}</Badge>
 						<span class="font-mono text-[11px] text-faint">
 							{formatDate(post.data.pubDate)}
 						</span>
@@ -56,8 +61,30 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 					</h1>
 					<div class="flex items-center gap-3 pt-4 border-t border-[var(--c-border)]">
 						{config.enableAuthor && (
-							<span class="text-[13px] text-body">
+							<div class="flex items-center gap-2.5 text-[13px] text-body">
+								<Avatar name={post.data.author} size={26} />
 								By <a href={`/author/${post.data.author}`} class="font-medium text-ink hover:text-accent-soft transition-colors">{post.data.author}</a>
+							</div>
+						)}
+						<span class="text-faint">·</span>
+						<span class="font-mono text-[11px] text-faint flex items-center gap-1">
+							<Icon name="clock" size={12} stroke={true} />
+							{readMins} min read
+						</span>
+						<span class="text-faint">·</span>
+						<span class="font-mono text-[11px] text-faint flex items-center gap-1" id="busuanzi_container_page_pv" style="display:none">
+							<Icon name="eye" size={12} stroke={true} />
+							<span id="busuanzi_value_page_pv"></span> views
+						</span>
+						<!-- Tags -->
+						{post.data.tags && post.data.tags.length > 0 && (
+							<span class="hidden sm:flex items-center gap-1.5 ml-auto">
+								{post.data.tags.map(tag => (
+									<a href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`}
+										class="font-mono text-[10px] text-muted hover:text-accent-soft transition-colors">
+										#{tag}
+									</a>
+								))}
 							</span>
 						)}
 					</div>
@@ -76,10 +103,21 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 					<Content />
 				</div>
 
+				<!-- Series navigator -->
+				{seriesPosts.length > 0 && post.data.series && (
+					<div class="max-w-[680px] mt-16">
+						<SeriesBar
+							posts={seriesPosts}
+							currentSlug={post.slug}
+							seriesName={post.data.series}
+						/>
+					</div>
+				)}
+
 				<!-- Share -->
 				<div class="max-w-[680px] mt-16 pt-8 border-t border-[var(--c-border)] flex items-center gap-4">
 					<span class="text-[13px] text-body">Share:</span>
-					<SocialShare links={config.shareLinks} />
+					<SocialShare />
 				</div>
 
 				<!-- Related -->
@@ -88,17 +126,7 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 						<div class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted mb-5">Related Stories</div>
 						<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 							{related.map(r => (
-								<a href={`/posts/${r.slug}`} class="block group">
-									<div class="aspect-[16/9] rounded-[3px] overflow-hidden bg-surface mb-3">
-										{r.data.image && (
-											<img src={r.data.image.url} alt={r.data.image.alt}
-												class="w-full h-full object-cover group-hover:opacity-80 transition-opacity" loading="lazy" />
-										)}
-									</div>
-									<h4 class="font-serif text-[16px] font-semibold leading-[1.3] text-ink group-hover:text-accent-soft transition-colors">
-										{r.data.title}
-									</h4>
-								</a>
+								<PostCard post={r} />
 							))}
 						</div>
 					</div>
@@ -106,53 +134,9 @@ const tocHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 			</div>
 
 			<!-- TOC sidebar -->
-			{tocHeadings.length > 0 && (
-				<aside class="hidden lg:block col-span-3 col-start-10">
-					<div class="sticky top-20">
-						<div class="font-mono text-[10px] uppercase tracking-[0.12em] text-faint mb-4 pb-3 border-b border-[var(--c-border)]">
-							On This Page
-						</div>
-						<nav class="flex flex-col gap-2.5 toc-nav">
-							{tocHeadings.map(h => (
-								<a href={`#${h.slug}`}
-									class={`text-[13px] leading-[1.4] text-muted hover:text-ink transition-colors toc-link toc-depth-${h.depth}`}
-									data-heading={h.slug}>
-									{h.text}
-								</a>
-							))}
-						</nav>
-					</div>
-				</aside>
-			)}
+			<TableOfContents headings={tocHeadings} />
 		</div>
 	</article>
-
-	<!-- Scroll spy -->
-	<script>
-		const links = document.querySelectorAll('.toc-link');
-		const headings = Array.from(links).map(link => {
-			const id = link.getAttribute('data-heading');
-			return { el: document.getElementById(id || ''), link };
-		}).filter(h => h.el);
-
-		const observer = new IntersectionObserver(entries => {
-			entries.forEach(entry => {
-				const matching = headings.find(h => h.el === entry.target);
-				if (!matching) return;
-				if (entry.isIntersecting) {
-					links.forEach(l => l.classList.remove('toc-active'));
-					matching.link.classList.add('toc-active');
-				}
-			});
-		}, { rootMargin: '-80px 0px -70% 0px' });
-
-		headings.forEach(h => observer.observe(h.el));
-	</script>
-
-	<style>
-		.toc-depth-3 { padding-left: 14px; font-size: 12px; }
-		.toc-active { color: var(--c-accent) !important; }
-	</style>
 
 	<!-- JSON-LD: Article -->
 	<script type="application/ld+json" set:html={JSON.stringify({

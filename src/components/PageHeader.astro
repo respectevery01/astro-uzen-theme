@@ -1,0 +1,42 @@
+---
+/**
+ * PageHeader.astro — standard page title header (kicker + h1 + description)
+ *
+ * Usage:
+ *   <PageHeader kicker="Category" title="Technology" desc="12 stories in this category." />
+ *   <PageHeader kicker="Newsletter" title="One email per week." titleEmphasis="No noise." />
+ */
+import Badge from './Badge.astro';
+
+interface Props {
+	kicker?: string;
+	title: string;
+	titleEmphasis?: string;
+	desc?: string;
+	class?: string;
+}
+
+const { kicker, title, titleEmphasis, desc, class: className = '' } = Astro.props;
+---
+
+<section class={`max-w-[1280px] mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-10 md:pb-12 ${className}`}>
+	{kicker && (
+		<div class="mb-4">
+			<Badge>{kicker}</Badge>
+		</div>
+	)}
+	<h1 class="font-serif text-[32px] sm:text-[42px] md:text-[56px] font-bold leading-[1.05] tracking-tight text-ink mb-4">
+		{title}
+		{titleEmphasis && (
+			<br />
+		)}
+		{titleEmphasis && (
+			<em class="italic font-normal text-accent-soft">{titleEmphasis}</em>
+		)}
+	</h1>
+	{desc && (
+		<p class="text-[16px] text-body max-w-[500px]">
+			{desc}
+		</p>
+	)}
+</section>

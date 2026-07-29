@@ -1,0 +1,97 @@
+---
+/**
+ * Lightbox.astro — click any article image to enlarge fullscreen
+ * No deps, pure vanilla. Works with View Transitions.
+ * Activates on all img inside [data-pagefind-body] / .prose
+ */
+---
+
+<div id="lightbox" class="lightbox">
+	<button id="lightbox-close" class="lightbox__close" aria-label="Close">
+		<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+			<path d="M18 6L6 18M6 6l12 12" />
+		</svg>
+	</button>
+	<img id="lightbox-img" class="lightbox__img" alt="" />
+</div>
+
+<style>
+	.lightbox {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.92);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 200;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+		cursor: zoom-out;
+	}
+	.lightbox.is-open {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	.lightbox__img {
+		max-width: 90vw;
+		max-height: 90vh;
+		border-radius: 3px;
+		object-fit: contain;
+	}
+	.lightbox__close {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: none;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		opacity: 0.6;
+		transition: opacity 0.2s;
+	}
+	.lightbox__close:hover {
+		opacity: 1;
+	}
+</style>
+
+<script>
+	function initLightbox() {
+		const lb = document.getElementById('lightbox');
+		const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+		const lbClose = document.getElementById('lightbox-close');
+		if (!lb || !lbImg) return;
+
+		const articleImgs = document.querySelectorAll('.prose img, [data-pagefind-body] img');
+
+		articleImgs.forEach(img => {
+			img.style.cursor = 'zoom-in';
+			img.addEventListener('click', () => {
+				lbImg.src = (img as HTMLImageElement).src;
+				lbImg.alt = (img as HTMLImageElement).alt;
+				lb.classList.add('is-open');
+				document.body.style.overflow = 'hidden';
+			});
+		});
+
+		function close() {
+			lb.classList.remove('is-open');
+			document.body.style.overflow = '';
+		}
+
+		lb.addEventListener('click', close);
+		lbClose?.addEventListener('click', close);
+		document.addEventListener('keydown', e => {
+			if (e.key === 'Escape') close();
+		});
+	}
+
+	// Run on initial load + after View Transitions
+	initLightbox();
+	document.addEventListener('astro:after-swap', initLightbox);
+</script>

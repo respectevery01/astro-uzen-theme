@@ -1,0 +1,46 @@
+---
+/**
+ * Badge.astro — inline kicker/tag badge
+ *
+ * Variants: accent (tinted bg) | plain (text only) | inverted (for dark sections)
+ *
+ * Usage:
+ *   <Badge>Category</Badge>
+ *   <Badge variant="accent">Editor's Pick</Badge>
+ */
+interface Props {
+	variant?: 'accent' | 'plain' | 'inverted';
+	class?: string;
+}
+
+const { variant = 'plain', class: className = '' } = Astro.props;
+---
+
+<span class={`ui-badge ui-badge-${variant} font-mono ${className}`}>
+	<slot />
+</span>
+
+<style>
+	.ui-badge {
+		display: inline-block;
+		font-size: 10px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+	}
+
+	.ui-badge-plain {
+		color: var(--c-accent);
+	}
+
+	.ui-badge-accent {
+		color: var(--c-accent);
+		background: color-mix(in srgb, var(--c-accent) 8%, transparent);
+		padding: 2px 10px;
+		border-radius: 2px;
+	}
+
+	.ui-badge-inverted {
+		color: var(--c-inv-muted);
+	}
+</style>

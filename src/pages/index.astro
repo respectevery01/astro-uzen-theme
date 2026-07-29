@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import Badge from '../components/Badge.astro';
+import Avatar from '../components/Avatar.astro';
 import { getCollection } from 'astro:content';
 import config from '../config.json';
+import { formatDateShort } from '../lib/dates';
 
 const posts = await getCollection('posts');
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const featuredPost = sortedPosts.find(post => post.data.featured) || sortedPosts[0];
 const otherPosts = sortedPosts.filter(post => post.slug !== featuredPost.slug);
-
-const formatDate = (d: Date) => {
-	const m = String(d.getMonth() + 1).padStart(2, '0');
-	const day = String(d.getDate()).padStart(2, '0');
-	return `${m}.${day}`;
-};
 ---
 
 <Layout title={`${config.siteTitle} — ${config.siteDescription}`}>
@@ -22,7 +22,7 @@ const formatDate = (d: Date) => {
 		<div class="flex flex-col md:grid md:grid-cols-12 md:gap-12 md:items-end">
 			<div class="col-span-12 md:col-span-7 min-w-0">
 				<div class="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-accent mb-4">
-					{featuredPost.data.category} · {formatDate(featuredPost.data.pubDate)}
+					{featuredPost.data.category} · {formatDateShort(featuredPost.data.pubDate)}
 				</div>
 				<h1 class="font-serif text-[30px] sm:text-[36px] md:text-[48px] font-bold leading-[1.12] tracking-tight text-ink mb-[18px]">
 					<a href={`/posts/${featuredPost.slug}`} class="hover:text-accent-soft transition-colors">
@@ -33,12 +33,12 @@ const formatDate = (d: Date) => {
 					{featuredPost.data.description}
 				</p>
 				<div class="flex items-center gap-2.5 text-[13px] text-muted">
-					<span class="w-[26px] h-[26px] rounded-full" style="background:linear-gradient(135deg, var(--c-accent), var(--c-accent-deep))"></span>
+					<Avatar name={featuredPost.data.author} size={26} />
 					<span class="font-medium text-body">{featuredPost.data.author}</span>
 					<span>·</span>
 					<span>Editorial</span>
 					<span>·</span>
-					<span class="font-mono">{formatDate(featuredPost.data.pubDate)}</span>
+					<span class="font-mono">{formatDateShort(featuredPost.data.pubDate)}</span>
 				</div>
 			</div>
 			<div class="col-span-12 md:col-span-5 mt-6 md:mt-0 min-w-0">
@@ -58,42 +58,11 @@ const formatDate = (d: Date) => {
 
 	<!-- ═══ ARTICLE GRID — 3 col CSS Grid ═══ -->
 	<section class="max-w-[1280px] mx-auto px-5 md:px-8 pb-16 md:pb-20">
-		<div class="flex items-center gap-3.5 mb-8">
-			<span class="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-muted">Latest Stories</span>
-			<div class="flex-1 h-px bg-[var(--c-border)]"></div>
-			<span class="font-mono text-[11px] text-faint">{otherPosts.length} posts</span>
-		</div>
+		<SectionHeading label="Latest Stories" count={otherPosts.length} />
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="article-grid">
 			{otherPosts.map((post) => (
-				<article class="flex flex-col cursor-pointer group">
-					<a href={`/posts/${post.slug}`} class="block aspect-[16/9] rounded-[3px] overflow-hidden bg-surface mb-4">
-						{post.data.image ? (
-							<img src={post.data.image.url} alt={post.data.image.alt}
-								class="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-								loading="lazy" />
-						) : (
-							<div class="w-full h-full"></div>
-						)}
-					</a>
-					<div class="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-accent mb-2">
-						{post.data.category}
-					</div>
-					<h3 class="font-serif text-[19px] font-semibold leading-[1.3] tracking-tight text-ink mb-2">
-						<a href={`/posts/${post.slug}`} class="group-hover:text-accent-soft transition-colors">
-							{post.data.title}
-						</a>
-					</h3>
-					<p class="text-[14px] text-muted leading-[1.55] line-clamp-2 mb-3">
-						{post.data.description}
-					</p>
-					<div class="mt-auto flex items-center gap-2 font-mono text-[12px] text-faint">
-						<span class="w-[18px] h-[18px] rounded-full" style="background:linear-gradient(135deg, var(--c-accent), var(--c-accent-deep))"></span>
-						{post.data.author}
-						<span class="w-[3px] h-[3px] rounded-full bg-faint"></span>
-						{formatDate(post.data.pubDate)}
-					</div>
-				</article>
+				<PostCard post={post} />
 			))}
 		</div>
 	</section>
@@ -102,9 +71,7 @@ const formatDate = (d: Date) => {
 	<section class="section-inverted px-5 md:px-8" style="padding-top:56px; padding-bottom:56px;">
 		<div class="max-w-[1280px] mx-auto">
 			<div class="flex items-baseline gap-3.5 mb-7 md:mb-9">
-				<span class="px-2.5 py-0.5 rounded-[2px] font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent" style="background:color-mix(in srgb, var(--c-accent) 8%, transparent)">
-					Editor's Pick
-				</span>
+				<Badge variant="accent">Editor's Pick</Badge>
 				<span class="font-serif text-[20px] md:text-[24px] font-bold tracking-tight" style="color:var(--c-inv-ink)">In Depth</span>
 			</div>
 
@@ -121,7 +88,7 @@ const formatDate = (d: Date) => {
 						{otherPosts[0]?.data.description}
 					</p>
 					<div class="font-mono text-[12px]" style="color:var(--c-inv-muted)">
-						{otherPosts[0]?.data.author} · {otherPosts[0] && formatDate(otherPosts[0].data.pubDate)}
+						{otherPosts[0]?.data.author} · {otherPosts[0] && formatDateShort(otherPosts[0].data.pubDate)}
 					</div>
 				</div>
 
@@ -134,7 +101,7 @@ const formatDate = (d: Date) => {
 						{sortedPosts.slice(0, 5).map((post) => (
 							<a href={`/posts/${post.slug}`}
 								class="py-3.5 border-t hover:opacity-70 transition-opacity" style="border-color:var(--c-inv-border)">
-								<div class="font-mono text-[11px] mb-0.5" style="color:var(--c-inv-muted)">{formatDate(post.data.pubDate)}</div>
+								<div class="font-mono text-[11px] mb-0.5" style="color:var(--c-inv-muted)">{formatDateShort(post.data.pubDate)}</div>
 								<div class="font-serif text-[15px] font-semibold leading-[1.35]" style="color:var(--c-inv-ink)">
 									{post.data.title}
 								</div>
@@ -148,22 +115,5 @@ const formatDate = (d: Date) => {
 	</section>
 
 	<!-- ═══ Newsletter ═══ -->
-	<section class="py-16 md:py-22 text-center border-t border-[var(--c-border)]" style="padding-top:64px; padding-bottom:64px;">
-		<div class="max-w-[1280px] mx-auto px-5 md:px-8">
-			<h2 class="font-serif text-[24px] md:text-[30px] font-bold text-ink mb-2.5 tracking-tight">
-				Stay in the <em class="italic font-normal text-accent-soft">loop</em>
-			</h2>
-			<p class="text-[15px] text-body mb-7">
-				One email per week. No spam, no daily noise. Just the stories worth reading.
-			</p>
-			<form class="flex flex-col sm:flex-row gap-2 max-w-[400px] mx-auto">
-				<input type="email" placeholder="your@email.com"
-					class="flex-1 px-4 py-3 bg-surface border border-[var(--c-border)] rounded-[3px] text-ink text-sm outline-none focus:border-accent transition-colors min-w-0" />
-				<button type="button"
-					class="px-6 py-3 bg-accent text-[#f5f0ea] font-semibold text-sm rounded-[3px] hover:bg-accent-deep transition-colors whitespace-nowrap">
-					Try free
-				</button>
-			</form>
-		</div>
-	</section>
+	<NewsletterForm />
 </Layout>
